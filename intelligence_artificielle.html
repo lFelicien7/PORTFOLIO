@@ -548,61 +548,40 @@
     }, (err) => console.error("[Realtime] onSnapshot error:", err));
   }
 
-  // --- Import via Cloud Function (écrit à la RACINE /articles) ---
-  const provider = new GoogleAuthProvider();
+// ... imports + init + const grid + esc + renderOneCardIntoGrid(...)
 
-  if (goBtn) {
-    goBtn.addEventListener("click", async () => {
-      // carte test : vérifie tout de suite que la grille est bien trouvée
-      renderTestCard("Si tu vois ça, l’injection DOM est OK.");
+const provider = new GoogleAuthProvider();
+if (goBtn) {
+  goBtn.addEventListener("click", async () => {
+    if (!auth.currentUser) {
+      try { await signInWithPopup(auth, provider); }
+      catch { await signInWithRedirect(auth, provider); return; }
+    }
 
-      if (!auth.currentUser) {
-        try { await signInWithPopup(auth, provider); }
-        catch { await signInWithRedirect(auth, provider); return; }
-      }
+    const url = (urlInput?.value || "").trim();
+    if (!url) { if (status) status.textContent = "⚠️ Mets une URL d’abord"; return; }
 
-      const url = (urlInput?.value || "").trim();
-      if (!url) { if (status) status.textContent = "⚠️ Mets une URL d’abord"; return; }
+    try {
+      if (status) status.textContent = "Import en cours...";
+      const call = httpsCallable(functions, "importArticleFromUrl");
+      const { data } = await call({ url });
+      console.log("[Function] =>", data);
 
-      try {
-        if (status) status.textContent = "Import en cours...";
-        const call = httpsCallable(functions, "importArticleFromUrl");
-        const { data } = await call({ url });
-        console.log("[Function] importArticleFromUrl =>", data);
+      if (status) status.textContent = (data?.updated ? "✅ Article mis à jour" : "✅ Article créé") + " (#" + data.id + ")";
 
-        if (!data || !data.id) {
-          if (status) status.textContent = "⚠️ Pas d’ID retourné par la function.";
-          return;
-        }
-
-        if (status) status.textContent = "✅ Article créé (#" + data.id + ")";
-        if (ptitle) ptitle.textContent = data.title || "(Sans titre)";
-        if (psum) psum.textContent = data.summary || "";
-
-        if (data.imageUrl && pimg && prev) { pimg.src = data.imageUrl; prev.style.display = "flex"; }
-
-        // 1) Insertion immédiate (sans attendre Firestore)
-        renderOneCardIntoGrid({
-          title: data.title,
-          summary: data.summary || data.content,
-          imageUrl: data.imageUrl || data.image,
-          sourceUrl: data.sourceUrl || data.link,
-          slug: data.slug
-        }, data.id, false);
-
-        // 2) Vérifie que le doc est bien en /articles côté Firestore (log)
-        try {
-          const snap = await getDoc(fsDoc(db, "articles", data.id));
-          console.log("[Check Firestore] doc exists in /articles:", snap.exists());
-          if (!snap.exists() && status) status.textContent += " (doc non trouvé en /articles)";
-        } catch (e) {
-          console.warn("[Check Firestore] erreur:", e);
-        }
-      } catch (err) {
-        if (status) status.textContent = "Erreur : " + (err?.message || err);
-        console.error("[Function] erreur:", err);
-      }
-    });
+      // 🔥 Insérer immédiatement UNE carte (celle que tu viens d’ajouter)
+      renderOneCardIntoGrid({
+        title: data.title,
+        summary: data.summary || data.content,
+        imageUrl: data.imageUrl || data.image,
+        sourceUrl: data.sourceUrl || data.link,
+        slug: data.slug
+      }, data.id, /*insertAtTop*/ false);
+    } catch (err) {
+      if (status) status.textContent = "Erreur : " + (err?.message || err);
+      console.error(err);
+    }
+  });
   } else {
     console.warn("[Init] Bouton #go introuvable");
   }
