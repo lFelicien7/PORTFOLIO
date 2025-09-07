@@ -433,21 +433,20 @@
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
 
-<!-- ========= SCRIPT FIREBASE (anti-doublons + redirect OK) ========= -->
+<!-- ========= SCRIPT FIREBASE (remplacer tout ton bloc) ========= -->
 <script type="module">
   // --- Imports ---
-  import { initializeApp, getApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-  import {
-    getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult
-  } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
   import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-functions.js";
+  import { getFirestore, collectionGroup, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
   // --- Config & init ---
   const firebaseConfig = {
     apiKey: "AIzaSyD7P4fQfQAc1jpTcdpZwNYXCW0RaNOQHfQ",
     authDomain: "portfolio-automatisation.firebaseapp.com",
     projectId: "portfolio-automatisation",
-    storageBucket: "portfolio-automatisation.appspot.com",
+    storageBucket: "portfolio-automatisation.appspot.com", // <- format classique du bucket
     messagingSenderId: "577854139349",
     appId: "1:577854139349:web:daae03a251a0008c60ab5c",
     measurementId: "G-Z12FYT1PP2"
@@ -455,74 +454,40 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const functions = getFunctions(app, "europe-west1");
+  const db = getFirestore(app);
 
-  // Debug global
-  window.fb = { app, auth, functions };
-  console.log("[Init] projectId:", getApp().options.projectId);
-
-  // Finalise une éventuelle authentification par REDIRECT au chargement
-  try {
-    const result = await getRedirectResult(auth);
-    if (result?.user) {
-      console.log("[Auth] Retour de redirect OK:", result.user.email);
-    }
-  } catch (e) {
-    console.warn("[Auth] getRedirectResult erreur:", e?.message || e);
-  }
-
-  // --- Sélecteurs UI ---
+  // --- Sélecteurs du formulaire ---
   const urlInput = document.getElementById("url");
-  const goBtn    = document.getElementById("go");
-  const status   = document.getElementById("status");
-  const prev     = document.getElementById("preview");
-  const pimg     = document.getElementById("pimg");
-  const ptitle   = document.getElementById("ptitle");
-  const psum     = document.getElementById("psum");
+  const goBtn = document.getElementById("go");
+  const status = document.getElementById("status");
+  const prev = document.getElementById("preview");
+  const pimg = document.getElementById("pimg");
+  const ptitle = document.getElementById("ptitle");
+  const psum = document.getElementById("psum");
 
-  // Grille des cartes
+  // --- Cible ta grille existante (même rendu que tes anciennes cartes) ---
   const grid = document.querySelector(".articles-grid.container") || document.querySelector(".container.articles-grid");
-  console.log("[Init] grid found:", !!grid);
 
-  // Empêche un double attachement si le script est inclus 2x
-  if (window.__ARTICLE_IMPORT_BOUND__) {
-    console.warn("[Bind] listener déjà attaché (script inclus 2x ?)");
+  // Sécurité DOM
+  function esc(s){
+    return (s || "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#39;");
   }
-  window.__ARTICLE_IMPORT_BOUND__ = true;
 
-  // Anti double-clic / Enter / re-entrée
-  let inProgress = false;
+  // Rendu d'UNE carte avec la même structure que tes anciennes
+  function renderOneCard(a, insertAtTop = false) {
+    if (!grid) return;
+    const title = esc(a?.title || a?.titre || "(Sans titre)");
+    const summary = esc((a?.summary || a?.content || "").toString().slice(0, 400));
+    const img = a?.imageUrl || a?.image || "";
+    const href = a?.sourceUrl || a?.link || (a?.slug ? `/article/${a.slug}` : "#");
 
-  // Dédup cartes
-  const renderedById  = new Set();
-  const renderedByKey = new Set();
-
-  // Utils
-  const esc = (s) => (s || "")
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
-
-  const normalizeUrl = (u) => {
-    try { return new URL(u).toString(); } catch { return (u||"").trim(); }
-  };
-
-  function renderOneCardIntoGrid(a, id, insertAtTop = false) {
-    if (!grid) { console.warn("[Render] grid introuvable"); return; }
-
-    const key = normalizeUrl(a?.sourceUrl || a?.link || "");
-    if (id && renderedById.has(id))      { console.log("[Render] déjà rendu (id):", id); return; }
-    if (key && renderedByKey.has(key))   { console.log("[Render] déjà rendu (url):", key); return; }
-    if (id) {
-      const exists = grid.querySelector(`.card[data-id="${id}"]`);
-      if (exists) { console.log("[Render] carte existe déjà pour", id); return; }
-    }
-
-    const title   = esc(a?.title || a?.titre || "(Sans titre)");
-    const summary = esc((a?.summary || a?.content || "").toString());
-    const img     = a?.imageUrl || a?.image || "";
-    const href    = a?.sourceUrl || a?.link || (a?.slug ? `/article/${a.slug}` : "#");
-
-    const cardHtml = `
-      <div class="card" data-dyn="1"${id ? ` data-id="${id}"` : ""}${key ? ` data-key="${key}"` : ""}>
+    const html = `
+      <div class="card" data-dyn="1">
         ${href && href !== "#" ? `<a href="${href}" target="_blank">` : ""}
           ${img ? `<img src="${img}" class="card-img-top" alt="Image Article">` : ""}
         ${href && href !== "#" ? `</a>` : ""}
@@ -532,82 +497,73 @@
         </div>
       </div>
     `;
-    grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", cardHtml);
-
-    if (id)  renderedById.add(id);
-    if (key) renderedByKey.add(key);
+    grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", html);
   }
 
-  // ---------- Handler bouton : 1 seul article par clic ----------
-  const provider = new GoogleAuthProvider();
+  // Charge depuis TOUTES les (sous-)collections nommées 'articles'
+  async function loadArticlesFromAnywhere() {
+    if (!grid) { console.warn("Grille .articles-grid.container introuvable"); return; }
+    // Supprime les cartes dynamiques existantes
+    grid.querySelectorAll('.card[data-dyn="1"]').forEach(el => el.remove());
 
-  if (!goBtn) {
-    console.warn("[Init] Bouton #go introuvable");
-  } else {
+    const snap = await getDocs(collectionGroup(db, "articles"));
+    const items = [];
+    snap.forEach(d => items.push(d.data()));
+
+    // Tri côté client : createdAt/updatedAt (Timestamp) sinon publishedDate (string/date)
+    const toMs = (t) =>
+      t?.seconds ? t.seconds * 1000 :
+      (typeof t?.toDate === "function" ? t.toDate().getTime() : NaN);
+
+    const getTime = (a) => {
+      const c = toMs(a?.createdAt);
+      if (!isNaN(c)) return c;
+      const u = toMs(a?.updatedAt);
+      if (!isNaN(u)) return u;
+      const p = Date.parse(a?.publishedDate);
+      return isNaN(p) ? 0 : p;
+    };
+
+    items.sort((a,b) => getTime(b) - getTime(a));
+    items.forEach(a => renderOneCard(a, false));
+  }
+
+  // --- Import d'article via Cloud Function ---
+  const provider = new GoogleAuthProvider();
+  if (goBtn) {
     goBtn.addEventListener("click", async () => {
-      if (inProgress) { console.log("[Click] ignoré: import déjà en cours"); return; }
-      inProgress = true;
-      goBtn.disabled = true;
+      if (!auth.currentUser) {
+        try { await signInWithPopup(auth, provider); }
+        catch { await signInWithRedirect(auth, provider); return; }
+      }
+
+      const url = (urlInput?.value || "").trim();
+      if (!url) { if (status) status.textContent = "⚠️ Mets une URL d’abord"; return; }
 
       try {
-        // Auth
-        if (!auth.currentUser) {
-          console.log("[Auth] Pas connecté → popup");
-          try {
-            await signInWithPopup(auth, provider);
-            console.log("[Auth] Popup OK:", auth.currentUser?.email);
-          } catch (e) {
-            console.warn("[Auth] Popup KO → redirect");
-            await signInWithRedirect(auth, provider);
-            return; // la page va rediriger, on sort
-          }
-        }
-
-        const url = (urlInput?.value || "").trim();
-        if (!url) { if (status) status.textContent = "⚠️ Mets une URL d’abord"; return; }
-
         if (status) status.textContent = "Import en cours...";
         const call = httpsCallable(functions, "importArticleFromUrl");
         const { data } = await call({ url });
-        console.log("[Function] =>", data);
 
-        if (!data || !data.id) {
-          if (status) status.textContent = "⚠️ Pas d’ID retourné par la function.";
-          return;
-        }
-
-        if (status) status.textContent = (data?.updated ? "✅ Article mis à jour" : "✅ Article créé") + " (#" + data.id + ")";
+        // Feedback rapide
+        if (status) status.textContent = "✅ Article créé (#" + data.id + ")";
         if (ptitle) ptitle.textContent = data.title || "(Sans titre)";
-        if (psum)   psum.textContent   = data.summary || data.content || "";
-        if ((data.imageUrl || data.image) && pimg && prev) { pimg.src = data.imageUrl || data.image; prev.style.display = "flex"; }
+        if (psum) psum.textContent = data.summary || "";
+        if (data.imageUrl && pimg && prev) { pimg.src = data.imageUrl; prev.style.display = "flex"; }
 
-        // Dédup locale par URL (sécurité supplémentaire)
-        const key = normalizeUrl(data.sourceUrl || data.link || "");
-        if (key && renderedByKey.has(key)) {
-          console.log("[Render] carte déjà présente pour cette URL, on n'ajoute pas.");
-          return;
-        }
-
-        // ✅ Ajoute UNE seule carte : celle importée
-        renderOneCardIntoGrid({
-          title: data.title,
-          summary: data.summary || data.content,
-          imageUrl: data.imageUrl || data.image,
-          sourceUrl: data.sourceUrl || data.link,
-          slug: data.slug
-        }, data.id, /*insertAtTop*/ false);
-
+        // Recharge la liste pour afficher tout de suite
+        await loadArticlesFromAnywhere();
       } catch (err) {
         if (status) status.textContent = "Erreur : " + (err?.message || err);
-        console.error("[Click] erreur:", err);
-      } finally {
-        inProgress = false;
-        goBtn.disabled = false;
       }
     });
   }
+
+  // 1er affichage au chargement de la page
+  loadArticlesFromAnywhere();
 </script>
 <!-- ========= FIN SCRIPT FIREBASE ========= -->
+
 
 
 
