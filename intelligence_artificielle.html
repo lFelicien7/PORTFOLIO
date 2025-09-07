@@ -433,20 +433,22 @@
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
 
-<!-- ========= SCRIPT FIREBASE (remplacer tout ton bloc) ========= -->
+<!-- ========= SCRIPT FIREBASE ========= -->
 <script type="module">
   // --- Imports ---
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
   import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
   import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-functions.js";
-  import { getFirestore, collectionGroup, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+  import {
+    getFirestore, collection, query, orderBy, limit, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
   // --- Config & init ---
   const firebaseConfig = {
     apiKey: "AIzaSyD7P4fQfQAc1jpTcdpZwNYXCW0RaNOQHfQ",
     authDomain: "portfolio-automatisation.firebaseapp.com",
     projectId: "portfolio-automatisation",
-    storageBucket: "portfolio-automatisation.appspot.com", // <- format classique du bucket
+    storageBucket: "portfolio-automatisation.appspot.com", // format standard
     messagingSenderId: "577854139349",
     appId: "1:577854139349:web:daae03a251a0008c60ab5c",
     measurementId: "G-Z12FYT1PP2"
@@ -465,29 +467,33 @@
   const ptitle = document.getElementById("ptitle");
   const psum = document.getElementById("psum");
 
-  // --- Cible ta grille existante (même rendu que tes anciennes cartes) ---
+  // --- Cible la grille principale (même rendu que tes anciennes cartes) ---
   const grid = document.querySelector(".articles-grid.container") || document.querySelector(".container.articles-grid");
 
-  // Sécurité DOM
-  function esc(s){
-    return (s || "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#39;");
-  }
+  // Déduplication (évite doubles rendus entre insertion immédiate et onSnapshot)
+  const rendered = new Set();
 
-  // Rendu d'UNE carte avec la même structure que tes anciennes
-  function renderOneCard(a, insertAtTop = false) {
+  // Sécurité DOM
+  const esc = s => (s || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+
+  // Rend UNE carte avec la même structure
+  function renderOneCardIntoGrid(a, id, insertAtTop = false) {
     if (!grid) return;
+    if (id && rendered.has(id)) return; // déjà affiché
+    if (id) rendered.add(id);
+
     const title = esc(a?.title || a?.titre || "(Sans titre)");
-    const summary = esc((a?.summary || a?.content || "").toString().slice(0, 400));
+    const summary = esc((a?.summary || a?.content || "").toString());
     const img = a?.imageUrl || a?.image || "";
     const href = a?.sourceUrl || a?.link || (a?.slug ? `/article/${a.slug}` : "#");
 
-    const html = `
-      <div class="card" data-dyn="1">
+    const cardHtml = `
+      <div class="card" data-dyn="1"${id ? ` data-id="${id}"` : ""}>
         ${href && href !== "#" ? `<a href="${href}" target="_blank">` : ""}
           ${img ? `<img src="${img}" class="card-img-top" alt="Image Article">` : ""}
         ${href && href !== "#" ? `</a>` : ""}
@@ -497,38 +503,10 @@
         </div>
       </div>
     `;
-    grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", html);
+    grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", cardHtml);
   }
 
-  // Charge depuis TOUTES les (sous-)collections nommées 'articles'
-  async function loadArticlesFromAnywhere() {
-    if (!grid) { console.warn("Grille .articles-grid.container introuvable"); return; }
-    // Supprime les cartes dynamiques existantes
-    grid.querySelectorAll('.card[data-dyn="1"]').forEach(el => el.remove());
-
-    const snap = await getDocs(collectionGroup(db, "articles"));
-    const items = [];
-    snap.forEach(d => items.push(d.data()));
-
-    // Tri côté client : createdAt/updatedAt (Timestamp) sinon publishedDate (string/date)
-    const toMs = (t) =>
-      t?.seconds ? t.seconds * 1000 :
-      (typeof t?.toDate === "function" ? t.toDate().getTime() : NaN);
-
-    const getTime = (a) => {
-      const c = toMs(a?.createdAt);
-      if (!isNaN(c)) return c;
-      const u = toMs(a?.updatedAt);
-      if (!isNaN(u)) return u;
-      const p = Date.parse(a?.publishedDate);
-      return isNaN(p) ? 0 : p;
-    };
-
-    items.sort((a,b) => getTime(b) - getTime(a));
-    items.forEach(a => renderOneCard(a, false));
-  }
-
-  // --- Import d'article via Cloud Function ---
+  // --- Import d'article via Cloud Function (écrit à la RACINE /articles) ---
   const provider = new GoogleAuthProvider();
   if (goBtn) {
     goBtn.addEventListener("click", async () => {
@@ -545,24 +523,42 @@
         const call = httpsCallable(functions, "importArticleFromUrl");
         const { data } = await call({ url });
 
-        // Feedback rapide
         if (status) status.textContent = "✅ Article créé (#" + data.id + ")";
         if (ptitle) ptitle.textContent = data.title || "(Sans titre)";
         if (psum) psum.textContent = data.summary || "";
         if (data.imageUrl && pimg && prev) { pimg.src = data.imageUrl; prev.style.display = "flex"; }
 
-        // Recharge la liste pour afficher tout de suite
-        await loadArticlesFromAnywhere();
+        // Insertion immédiate (ne dépend pas du snapshot)
+        renderOneCardIntoGrid({
+          title: data.title,
+          summary: data.summary,
+          imageUrl: data.imageUrl,
+          sourceUrl: data.sourceUrl,
+          slug: data.slug
+        }, data.id, /*insertAtTop*/ false);
       } catch (err) {
         if (status) status.textContent = "Erreur : " + (err?.message || err);
       }
     });
   }
 
-  // 1er affichage au chargement de la page
-  loadArticlesFromAnywhere();
+  // --- Affichage temps réel : UNIQUEMENT la collection racine /articles ---
+  if (grid) {
+    const q = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(24));
+    onSnapshot(q, (snap) => {
+      // Option : ne pas vider; on ajoute seulement ce qui n'est pas encore rendu
+      snap.docChanges().forEach(change => {
+        if (change.type === "added") {
+          renderOneCardIntoGrid(change.doc.data(), change.doc.id, false);
+        }
+      });
+    }, (err) => {
+      console.error("onSnapshot error:", err); // en cas de règles lecture bloquées
+    });
+  }
 </script>
 <!-- ========= FIN SCRIPT FIREBASE ========= -->
+
 
 
 
