@@ -433,15 +433,12 @@
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
 
-<!-- ========= SCRIPT FIREBASE (remplacer tout ton bloc) ========= -->
+<!-- ========= SCRIPT FIREBASE (final, 1 article par clic) ========= -->
 <script type="module">
   // --- Imports ---
   import { initializeApp, getApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
   import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
   import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-functions.js";
-  import {
-    getFirestore, collection, query, orderBy, limit, getDocs, onSnapshot, doc as fsDoc, getDoc
-  } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
   // --- Config & init ---
   const firebaseConfig = {
@@ -456,10 +453,10 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const functions = getFunctions(app, "europe-west1");
-  const db = getFirestore(app);
 
   // Debug simple dispo dans la console
-  window.fb = { app, auth, db, functions };
+  window.fb = { app, auth, functions };
+  console.log("[Init] projectId:", getApp().options.projectId);
 
   // --- Sélecteurs du formulaire ---
   const urlInput = document.getElementById("url");
@@ -472,14 +469,13 @@
 
   // --- Cible la grille principale (même rendu que tes anciennes cartes) ---
   const grid = document.querySelector(".articles-grid.container") || document.querySelector(".container.articles-grid");
-  console.log("[Init] projectId:", getApp().options.projectId);
   console.log("[Init] grid found:", !!grid);
 
-  // Dédup (évite doublons entre insert immédiat et snapshot)
+  // anti-doublons (si tu réimportes la même URL dans la même session)
   const rendered = new Set();
 
   // Sécurité DOM
-  const esc = s => (s || "")
+  const esc = (s) => (s || "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
@@ -492,7 +488,7 @@
     if (id && rendered.has(id)) { console.log("[Render] déjà rendu:", id); return; }
     if (id) rendered.add(id);
 
-    // Tolérant aux deux schémas (title/summary/sourceUrl/imageUrl) ou (title/content/link)
+    // Tolérant aux deux schémas (title/summary/sourceUrl/imageUrl) OU (title/content/link)
     const title   = esc(a?.title || a?.titre || "(Sans titre)");
     const summary = esc((a?.summary || a?.content || "").toString());
     const img     = a?.imageUrl || a?.image || "";
@@ -512,85 +508,54 @@
     grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", cardHtml);
   }
 
-  // (A) Test visuel : insère une carte “test” pour valider l’injection DOM
-  function renderTestCard(note = "Carte test") {
-    renderOneCardIntoGrid({
-      title: "✅ Test d’injection",
-      summary: note,
-      imageUrl: "",
-      sourceUrl: "#"
-    }, `test-${Date.now()}`, true);
-  }
+  // --- Import via Cloud Function (ajoute UNE carte par clic) ---
+  const provider = new GoogleAuthProvider();
 
-  // --- Chargement initial des articles en /articles (racine) ---
-  async function loadInitial() {
-    try {
-      const q1 = query(collection(db, "articles"), orderBy("title"), limit(50));
-      const snap = await getDocs(q1);
-      console.log("[Initial] docs in /articles:", snap.size);
-      snap.forEach(docSnap => renderOneCardIntoGrid(docSnap.data(), docSnap.id, false));
-    } catch (e) {
-      console.error("[Initial] Firestore error:", e);
-    }
-  }
+  if (goBtn) {
+    goBtn.addEventListener("click", async () => {
+      if (!auth.currentUser) {
+        try { await signInWithPopup(auth, provider); }
+        catch { await signInWithRedirect(auth, provider); return; }
+      }
 
-  // --- Écoute temps réel (ignore le 1er snapshot pour éviter backfill) ---
-  function watchRealtime() {
-    const q2 = query(collection(db, "articles"), orderBy("title"), limit(50));
-    let initial = true;
-    onSnapshot(q2, (snap) => {
-      if (initial) { initial = false; return; }
-      snap.docChanges().forEach(change => {
-        if (change.type === "added") {
-          renderOneCardIntoGrid(change.doc.data(), change.doc.id, false);
+      const url = (urlInput?.value || "").trim();
+      if (!url) { if (status) status.textContent = "⚠️ Mets une URL d’abord"; return; }
+
+      try {
+        if (status) status.textContent = "Import en cours...";
+        const call = httpsCallable(functions, "importArticleFromUrl");
+        const { data } = await call({ url });
+        console.log("[Function] =>", data);
+
+        if (!data || !data.id) {
+          if (status) status.textContent = "⚠️ Pas d’ID retourné par la function.";
+          return;
         }
-      });
-    }, (err) => console.error("[Realtime] onSnapshot error:", err));
-  }
 
-// ... imports + init + const grid + esc + renderOneCardIntoGrid(...)
+        if (status) status.textContent = (data?.updated ? "✅ Article mis à jour" : "✅ Article créé") + " (#" + data.id + ")";
+        if (ptitle) ptitle.textContent = data.title || "(Sans titre)";
+        if (psum) psum.textContent = data.summary || data.content || "";
+        if ((data.imageUrl || data.image) && pimg && prev) { pimg.src = data.imageUrl || data.image; prev.style.display = "flex"; }
 
-const provider = new GoogleAuthProvider();
-if (goBtn) {
-  goBtn.addEventListener("click", async () => {
-    if (!auth.currentUser) {
-      try { await signInWithPopup(auth, provider); }
-      catch { await signInWithRedirect(auth, provider); return; }
-    }
-
-    const url = (urlInput?.value || "").trim();
-    if (!url) { if (status) status.textContent = "⚠️ Mets une URL d’abord"; return; }
-
-    try {
-      if (status) status.textContent = "Import en cours...";
-      const call = httpsCallable(functions, "importArticleFromUrl");
-      const { data } = await call({ url });
-      console.log("[Function] =>", data);
-
-      if (status) status.textContent = (data?.updated ? "✅ Article mis à jour" : "✅ Article créé") + " (#" + data.id + ")";
-
-      // 🔥 Insérer immédiatement UNE carte (celle que tu viens d’ajouter)
-      renderOneCardIntoGrid({
-        title: data.title,
-        summary: data.summary || data.content,
-        imageUrl: data.imageUrl || data.image,
-        sourceUrl: data.sourceUrl || data.link,
-        slug: data.slug
-      }, data.id, /*insertAtTop*/ false);
-    } catch (err) {
-      if (status) status.textContent = "Erreur : " + (err?.message || err);
-      console.error(err);
-    }
-  });
+        // 🔥 Insère immédiatement UNE carte (celle importée)
+        renderOneCardIntoGrid({
+          title: data.title,
+          summary: data.summary || data.content,
+          imageUrl: data.imageUrl || data.image,
+          sourceUrl: data.sourceUrl || data.link,
+          slug: data.slug
+        }, data.id, /*insertAtTop*/ false);
+      } catch (err) {
+        if (status) status.textContent = "Erreur : " + (err?.message || err);
+        console.error(err);
+      }
+    });
   } else {
     console.warn("[Init] Bouton #go introuvable");
   }
-
-  // Démarre l’affichage
-  await loadInitial();
-  watchRealtime();
 </script>
 <!-- ========= FIN SCRIPT FIREBASE ========= -->
+
 
 
 
