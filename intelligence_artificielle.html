@@ -382,13 +382,6 @@
       <p class="card-text">Si on sait d’ores et déjà que les outils d’intelligence artificielle comme ChatGPT, Meta AI, ou encore Google Gemini ne sont pas encore utilisés par l’ensemble du grand public, les derniers chiffres qui viennent d’être publiés à ce sujet pourraient être annonciateurs d’un futur bouleversement dans les usages…</p>
     </div>
   </div>
-
-  <!-- Conteneur d’articles dynamiques -->
-<div class="container my-4">
-  <h3>Articles importés</h3>
-  <div id="imported-articles" class="row g-3"></div>
-</div>
-
 </div>
 
 <!-- Footer -->
@@ -440,8 +433,8 @@
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
 
-  <!-- ========= SCRIPT FIREBASE ========= -->
-  <script type="module">
+<!-- ========= SCRIPT FIREBASE ========= -->
+<script type="module">
   // --- Imports ---
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
   import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
@@ -453,7 +446,7 @@
     apiKey: "AIzaSyD7P4fQfQAc1jpTcdpZwNYXCW0RaNOQHfQ",
     authDomain: "portfolio-automatisation.firebaseapp.com",
     projectId: "portfolio-automatisation",
-    storageBucket: "portfolio-automatisation.firebasestorage.app",
+    storageBucket: "portfolio-automatisation.firebasestorage.app", // généralement: "<projectId>.appspot.com"
     messagingSenderId: "577854139349",
     appId: "1:577854139349:web:daae03a251a0008c60ab5c",
     measurementId: "G-Z12FYT1PP2"
@@ -474,64 +467,94 @@
 
   // --- Import d'article via Cloud Function ---
   const provider = new GoogleAuthProvider();
-  goBtn.addEventListener("click", async () => {
-    if (!auth.currentUser) {
-      try { await signInWithPopup(auth, provider); }
-      catch { await signInWithRedirect(auth, provider); return; }
-    }
+  if (goBtn) {
+    goBtn.addEventListener("click", async () => {
+      if (!auth.currentUser) {
+        try { await signInWithPopup(auth, provider); }
+        catch { await signInWithRedirect(auth, provider); return; }
+      }
 
-    const url = (urlInput.value || "").trim();
-    if (!url) { status.textContent = "⚠️ Mets une URL d’abord"; return; }
+      const url = (urlInput?.value || "").trim();
+      if (!url) { if (status) status.textContent = "⚠️ Mets une URL d’abord"; return; }
 
-    try {
-      status.textContent = "Import en cours...";
-      const call = httpsCallable(functions, "importArticleFromUrl");
-      const { data } = await call({ url });
-      status.textContent = "✅ Article créé (#" + data.id + ")";
-      ptitle.textContent = data.title || "(Sans titre)";
-      psum.textContent = data.summary || "";
-      if (data.imageUrl) { pimg.src = data.imageUrl; prev.style.display = "flex"; }
-    } catch (err) {
-      status.textContent = "Erreur : " + (err?.message || err);
-    }
-  });
+      try {
+        if (status) status.textContent = "Import en cours...";
+        const call = httpsCallable(functions, "importArticleFromUrl");
+        const { data } = await call({ url });
 
-  // --- Affichage des articles importés (temps réel) ---
-  const container = document.getElementById("imported-articles");
-  const q = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(12));
-  onSnapshot(q, (snap) => {
-    container.innerHTML = "";
-    if (snap.empty) {
-      container.innerHTML = '<p class="text-muted">Aucun article importé pour l’instant.</p>';
-      return;
-    }
-    snap.forEach(doc => {
-      const a = doc.data();
-      container.insertAdjacentHTML("beforeend", `
-        <div class="col-md-4">
-          <div class="card h-100 shadow-sm">
-            ${a.imageUrl ? `<img src="${a.imageUrl}" class="card-img-top" alt="">` : ""}
-            <div class="card-body">
-              <h5 class="card-title">${escapeHtml(a.title || "(Sans titre)")}</h5>
-              <p class="card-text">${(a.summary || "").slice(0, 180)}</p>
-              <div class="d-flex gap-2">
-                ${a.sourceUrl ? `<a class="btn btn-outline-primary btn-sm" href="${a.sourceUrl}" target="_blank">Source</a>` : ""}
-                ${a.slug ? `<a class="btn btn-primary btn-sm" href="/article/${a.slug}">Lire</a>` : ""}
-              </div>
-            </div>
-          </div>
-        </div>
-      `);
+        // petit aperçu d'info
+        if (status) status.textContent = "✅ Article créé (#" + data.id + ")";
+        if (ptitle) ptitle.textContent = data.title || "(Sans titre)";
+        if (psum) psum.textContent = data.summary || "";
+        if (data.imageUrl && pimg && prev) { pimg.src = data.imageUrl; prev.style.display = "flex"; }
+
+        // (Optionnel) insertion immédiate dans la grille aussi :
+        renderOneCardIntoGrid({
+          title: data.title,
+          summary: data.summary,
+          imageUrl: data.imageUrl,
+          sourceUrl: data.sourceUrl,
+          slug: data.slug
+        }, /*insertAtTop*/ false);
+      } catch (err) {
+        if (status) status.textContent = "Erreur : " + (err?.message || err);
+      }
     });
-  });
+  }
 
-  function escapeHtml(s){
+  // --- Affichage dans TA grille .articles-grid.container (même carte que les anciennes) ---
+  const grid = document.querySelector(".articles-grid.container");
+
+  // Abonnement temps réel Firestore : on (re)rend uniquement les cartes dynamiques
+  if (grid) {
+    const q = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(24));
+
+    onSnapshot(q, (snap) => {
+      // on supprime d'abord les anciennes cartes dynamiques pour éviter les doublons
+      grid.querySelectorAll('.card[data-dyn="1"]').forEach(el => el.remove());
+
+      snap.forEach(doc => {
+        const a = doc.data();
+        renderOneCardIntoGrid(a, /*insertAtTop*/ false);
+      });
+    });
+  }
+
+  // Rend UNE carte dans la grille avec EXACTEMENT ta structure HTML
+  function renderOneCardIntoGrid(a, insertAtTop = false) {
+    if (!grid) return;
+    const title = esc(a?.title || "(Sans titre)");
+    const summary = esc((a?.summary || "").toString());
+    const img = a?.imageUrl;
+    const href = a?.sourceUrl || (a?.slug ? `/article/${a.slug}` : "#");
+
+    const cardHtml = `
+      <div class="card" data-dyn="1">
+        ${href && href !== "#" ? `<a href="${href}" target="_blank">` : ""}
+          ${img ? `<img src="${img}" class="card-img-top" alt="Image Article">` : ""}
+        ${href && href !== "#" ? `</a>` : ""}
+        <div class="card-body">
+          <h5 class="card-title">${title}</h5>
+          <p class="card-text">${summary}</p>
+        </div>
+      </div>
+    `;
+
+    grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", cardHtml);
+  }
+
+  // petite sécurité contre l'injection HTML
+  function esc(s){
     return (s || "")
       .replace(/&/g,"&amp;")
       .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;");
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#39;");
   }
 </script>
+<!-- ========= FIN SCRIPT FIREBASE ========= -->
+
 
 
 </body>
