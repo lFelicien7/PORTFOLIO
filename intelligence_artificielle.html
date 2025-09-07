@@ -433,14 +433,14 @@
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
 
-<!-- ========= SCRIPT FIREBASE ========= -->
+<!-- ========= SCRIPT FIREBASE (remplacer tout ton bloc) ========= -->
 <script type="module">
   // --- Imports ---
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
   import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
   import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-functions.js";
   import {
-    getFirestore, collection, query, orderBy, limit, onSnapshot
+    getFirestore, collection, query, orderBy, limit, getDocs, onSnapshot
   } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
   // --- Config & init ---
@@ -448,7 +448,7 @@
     apiKey: "AIzaSyD7P4fQfQAc1jpTcdpZwNYXCW0RaNOQHfQ",
     authDomain: "portfolio-automatisation.firebaseapp.com",
     projectId: "portfolio-automatisation",
-    storageBucket: "portfolio-automatisation.appspot.com", // format standard
+    storageBucket: "portfolio-automatisation.appspot.com",
     messagingSenderId: "577854139349",
     appId: "1:577854139349:web:daae03a251a0008c60ab5c",
     measurementId: "G-Z12FYT1PP2"
@@ -469,8 +469,9 @@
 
   // --- Cible la grille principale (même rendu que tes anciennes cartes) ---
   const grid = document.querySelector(".articles-grid.container") || document.querySelector(".container.articles-grid");
+  if (!grid) console.warn("Grille .articles-grid.container introuvable");
 
-  // Déduplication (évite doubles rendus entre insertion immédiate et onSnapshot)
+  // Déduplication (éviter les doublons entre insert immédiat et snapshot)
   const rendered = new Set();
 
   // Sécurité DOM
@@ -484,7 +485,7 @@
   // Rend UNE carte avec la même structure
   function renderOneCardIntoGrid(a, id, insertAtTop = false) {
     if (!grid) return;
-    if (id && rendered.has(id)) return; // déjà affiché
+    if (id && rendered.has(id)) return;
     if (id) rendered.add(id);
 
     const title = esc(a?.title || a?.titre || "(Sans titre)");
@@ -506,6 +507,34 @@
     grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", cardHtml);
   }
 
+  // --- Chargement initial des 24 derniers articles à la RACINE /articles ---
+  async function loadInitial() {
+    try {
+      const q1 = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(24));
+      const snap = await getDocs(q1);
+      snap.forEach(doc => renderOneCardIntoGrid(doc.data(), doc.id, false));
+      console.log("[Initial] articles chargés:", snap.size);
+    } catch (e) {
+      console.error("[Initial] erreur de lecture Firestore:", e);
+    }
+  }
+
+  // --- Ecoute temps réel : UNIQUEMENT la collection racine /articles ---
+  function watchRealtime() {
+    const q2 = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(24));
+    let initial = true; // ignore le 1er snapshot (backfill)
+    onSnapshot(q2, (snap) => {
+      if (initial) { initial = false; return; }
+      snap.docChanges().forEach(change => {
+        if (change.type === "added") {
+          renderOneCardIntoGrid(change.doc.data(), change.doc.id, false);
+        }
+      });
+    }, (err) => {
+      console.error("[Realtime] onSnapshot error:", err);
+    });
+  }
+
   // --- Import d'article via Cloud Function (écrit à la RACINE /articles) ---
   const provider = new GoogleAuthProvider();
   if (goBtn) {
@@ -522,13 +551,14 @@
         if (status) status.textContent = "Import en cours...";
         const call = httpsCallable(functions, "importArticleFromUrl");
         const { data } = await call({ url });
+        console.log("[Function] importArticleFromUrl =>", data); // ✅ log important
 
         if (status) status.textContent = "✅ Article créé (#" + data.id + ")";
         if (ptitle) ptitle.textContent = data.title || "(Sans titre)";
         if (psum) psum.textContent = data.summary || "";
         if (data.imageUrl && pimg && prev) { pimg.src = data.imageUrl; prev.style.display = "flex"; }
 
-        // Insertion immédiate (ne dépend pas du snapshot)
+        // Insertion immédiate (sans attendre Firestore)
         renderOneCardIntoGrid({
           title: data.title,
           summary: data.summary,
@@ -538,28 +568,16 @@
         }, data.id, /*insertAtTop*/ false);
       } catch (err) {
         if (status) status.textContent = "Erreur : " + (err?.message || err);
+        console.error("[Function] erreur:", err);
       }
     });
   }
 
-  // --- Affichage temps réel : UNIQUEMENT la collection racine /articles ---
-  if (grid) {
-    const q = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(24));
-    onSnapshot(q, (snap) => {
-      // Option : ne pas vider; on ajoute seulement ce qui n'est pas encore rendu
-      snap.docChanges().forEach(change => {
-        if (change.type === "added") {
-          renderOneCardIntoGrid(change.doc.data(), change.doc.id, false);
-        }
-      });
-    }, (err) => {
-      console.error("onSnapshot error:", err); // en cas de règles lecture bloquées
-    });
-  }
+  // Démarre l’affichage
+  await loadInitial();
+  watchRealtime();
 </script>
 <!-- ========= FIN SCRIPT FIREBASE ========= -->
-
-
 
 
 
