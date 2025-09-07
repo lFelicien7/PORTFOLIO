@@ -433,14 +433,14 @@
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
 
-<!-- ========= SCRIPT FIREBASE (remplacer tout le bloc) ========= -->
+<!-- ========= SCRIPT FIREBASE (remplacer tout ton bloc) ========= -->
 <script type="module">
   // --- Imports ---
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  import { initializeApp, getApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
   import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
   import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-functions.js";
   import {
-    getFirestore, collection, query, orderBy, limit, getDocs, onSnapshot
+    getFirestore, collection, query, orderBy, limit, getDocs, onSnapshot, doc as fsDoc, getDoc
   } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
   // --- Config & init ---
@@ -458,7 +458,7 @@
   const functions = getFunctions(app, "europe-west1");
   const db = getFirestore(app);
 
-  // Debug rapide dispo en console
+  // Debug simple dispo dans la console
   window.fb = { app, auth, db, functions };
 
   // --- Sélecteurs du formulaire ---
@@ -472,7 +472,8 @@
 
   // --- Cible la grille principale (même rendu que tes anciennes cartes) ---
   const grid = document.querySelector(".articles-grid.container") || document.querySelector(".container.articles-grid");
-  if (!grid) console.warn("Grille .articles-grid.container introuvable");
+  console.log("[Init] projectId:", getApp().options.projectId);
+  console.log("[Init] grid found:", !!grid);
 
   // Dédup (évite doublons entre insert immédiat et snapshot)
   const rendered = new Set();
@@ -487,12 +488,11 @@
 
   // Rendu d’UNE carte (identique à tes anciennes)
   function renderOneCardIntoGrid(a, id, insertAtTop = false) {
-    if (!grid) return;
-    if (id && rendered.has(id)) return;
+    if (!grid) { console.warn("[Render] grid introuvable"); return; }
+    if (id && rendered.has(id)) { console.log("[Render] déjà rendu:", id); return; }
     if (id) rendered.add(id);
 
-    // Tolérant aux deux schémas de doc: (title, summary, sourceUrl, imageUrl)
-    // et (title, content, link, publishedDate) vus sur ta capture
+    // Tolérant aux deux schémas (title/summary/sourceUrl/imageUrl) ou (title/content/link)
     const title   = esc(a?.title || a?.titre || "(Sans titre)");
     const summary = esc((a?.summary || a?.content || "").toString());
     const img     = a?.imageUrl || a?.image || "";
@@ -512,35 +512,31 @@
     grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", cardHtml);
   }
 
-  // Petit helper pour trier côté client (createdAt/updatedAt Timestamp ou publishedDate string)
-  const toMs = (t) =>
-    t?.seconds ? t.seconds * 1000 :
-    (typeof t?.toDate === "function" ? t.toDate().getTime() : NaN);
+  // (A) Test visuel : insère une carte “test” pour valider l’injection DOM
+  function renderTestCard(note = "Carte test") {
+    renderOneCardIntoGrid({
+      title: "✅ Test d’injection",
+      summary: note,
+      imageUrl: "",
+      sourceUrl: "#"
+    }, `test-${Date.now()}`, true);
+  }
 
-  const getTime = (a) => {
-    const c = toMs(a?.createdAt);  if (!isNaN(c)) return c;
-    const u = toMs(a?.updatedAt);  if (!isNaN(u)) return u;
-    const p = Date.parse(a?.publishedDate); return isNaN(p) ? 0 : p;
-  };
-
-  // --- Chargement initial: lit /articles (racine), tri côté client, rend
+  // --- Chargement initial des articles en /articles (racine) ---
   async function loadInitial() {
     try {
-      const snap = await getDocs(collection(db, "articles")); // pas d'orderBy (certains docs n'ont pas createdAt)
-      const items = [];
-      snap.forEach(d => items.push({ id: d.id, ...d.data() }));
-      items.sort((a,b) => getTime(b) - getTime(a));
-
-      items.forEach(it => renderOneCardIntoGrid(it, it.id, false));
-      console.log("[Initial] articles chargés:", items.length);
+      const q1 = query(collection(db, "articles"), orderBy("title"), limit(50));
+      const snap = await getDocs(q1);
+      console.log("[Initial] docs in /articles:", snap.size);
+      snap.forEach(docSnap => renderOneCardIntoGrid(docSnap.data(), docSnap.id, false));
     } catch (e) {
-      console.error("[Initial] erreur de lecture Firestore:", e);
+      console.error("[Initial] Firestore error:", e);
     }
   }
 
-  // --- Écoute temps réel : /articles (racine), ignore le 1er snapshot (backfill)
+  // --- Écoute temps réel (ignore le 1er snapshot pour éviter backfill) ---
   function watchRealtime() {
-    const q2 = query(collection(db, "articles"), orderBy("title"), limit(50)); // orderBy 'title' car certains docs n'ont pas 'createdAt'
+    const q2 = query(collection(db, "articles"), orderBy("title"), limit(50));
     let initial = true;
     onSnapshot(q2, (snap) => {
       if (initial) { initial = false; return; }
@@ -552,10 +548,14 @@
     }, (err) => console.error("[Realtime] onSnapshot error:", err));
   }
 
-  // --- Import via Cloud Function (écrit à la RACINE /articles)
+  // --- Import via Cloud Function (écrit à la RACINE /articles) ---
   const provider = new GoogleAuthProvider();
+
   if (goBtn) {
     goBtn.addEventListener("click", async () => {
+      // carte test : vérifie tout de suite que la grille est bien trouvée
+      renderTestCard("Si tu vois ça, l’injection DOM est OK.");
+
       if (!auth.currentUser) {
         try { await signInWithPopup(auth, provider); }
         catch { await signInWithRedirect(auth, provider); return; }
@@ -570,24 +570,41 @@
         const { data } = await call({ url });
         console.log("[Function] importArticleFromUrl =>", data);
 
+        if (!data || !data.id) {
+          if (status) status.textContent = "⚠️ Pas d’ID retourné par la function.";
+          return;
+        }
+
         if (status) status.textContent = "✅ Article créé (#" + data.id + ")";
         if (ptitle) ptitle.textContent = data.title || "(Sans titre)";
         if (psum) psum.textContent = data.summary || "";
+
         if (data.imageUrl && pimg && prev) { pimg.src = data.imageUrl; prev.style.display = "flex"; }
 
-        // Insertion immédiate
+        // 1) Insertion immédiate (sans attendre Firestore)
         renderOneCardIntoGrid({
           title: data.title,
           summary: data.summary || data.content,
           imageUrl: data.imageUrl || data.image,
           sourceUrl: data.sourceUrl || data.link,
           slug: data.slug
-        }, data.id, /*insertAtTop*/ false);
+        }, data.id, false);
+
+        // 2) Vérifie que le doc est bien en /articles côté Firestore (log)
+        try {
+          const snap = await getDoc(fsDoc(db, "articles", data.id));
+          console.log("[Check Firestore] doc exists in /articles:", snap.exists());
+          if (!snap.exists() && status) status.textContent += " (doc non trouvé en /articles)";
+        } catch (e) {
+          console.warn("[Check Firestore] erreur:", e);
+        }
       } catch (err) {
         if (status) status.textContent = "Erreur : " + (err?.message || err);
         console.error("[Function] erreur:", err);
       }
     });
+  } else {
+    console.warn("[Init] Bouton #go introuvable");
   }
 
   // Démarre l’affichage
