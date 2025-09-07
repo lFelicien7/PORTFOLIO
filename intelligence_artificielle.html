@@ -433,20 +433,20 @@
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
 
-<!-- ========= SCRIPT FIREBASE ========= -->
+<!-- ========= SCRIPT FIREBASE (remplacer tout ton bloc) ========= -->
 <script type="module">
   // --- Imports ---
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
   import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
   import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-functions.js";
-  import { getFirestore, collection, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+  import { getFirestore, collectionGroup, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
   // --- Config & init ---
   const firebaseConfig = {
     apiKey: "AIzaSyD7P4fQfQAc1jpTcdpZwNYXCW0RaNOQHfQ",
     authDomain: "portfolio-automatisation.firebaseapp.com",
     projectId: "portfolio-automatisation",
-    storageBucket: "portfolio-automatisation.firebasestorage.app", // généralement: "<projectId>.appspot.com"
+    storageBucket: "portfolio-automatisation.appspot.com", // <- format classique du bucket
     messagingSenderId: "577854139349",
     appId: "1:577854139349:web:daae03a251a0008c60ab5c",
     measurementId: "G-Z12FYT1PP2"
@@ -465,6 +465,69 @@
   const ptitle = document.getElementById("ptitle");
   const psum = document.getElementById("psum");
 
+  // --- Cible ta grille existante (même rendu que tes anciennes cartes) ---
+  const grid = document.querySelector(".articles-grid.container") || document.querySelector(".container.articles-grid");
+
+  // Sécurité DOM
+  function esc(s){
+    return (s || "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#39;");
+  }
+
+  // Rendu d'UNE carte avec la même structure que tes anciennes
+  function renderOneCard(a, insertAtTop = false) {
+    if (!grid) return;
+    const title = esc(a?.title || a?.titre || "(Sans titre)");
+    const summary = esc((a?.summary || a?.content || "").toString().slice(0, 400));
+    const img = a?.imageUrl || a?.image || "";
+    const href = a?.sourceUrl || a?.link || (a?.slug ? `/article/${a.slug}` : "#");
+
+    const html = `
+      <div class="card" data-dyn="1">
+        ${href && href !== "#" ? `<a href="${href}" target="_blank">` : ""}
+          ${img ? `<img src="${img}" class="card-img-top" alt="Image Article">` : ""}
+        ${href && href !== "#" ? `</a>` : ""}
+        <div class="card-body">
+          <h5 class="card-title">${title}</h5>
+          <p class="card-text">${summary}</p>
+        </div>
+      </div>
+    `;
+    grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", html);
+  }
+
+  // Charge depuis TOUTES les (sous-)collections nommées 'articles'
+  async function loadArticlesFromAnywhere() {
+    if (!grid) { console.warn("Grille .articles-grid.container introuvable"); return; }
+    // Supprime les cartes dynamiques existantes
+    grid.querySelectorAll('.card[data-dyn="1"]').forEach(el => el.remove());
+
+    const snap = await getDocs(collectionGroup(db, "articles"));
+    const items = [];
+    snap.forEach(d => items.push(d.data()));
+
+    // Tri côté client : createdAt/updatedAt (Timestamp) sinon publishedDate (string/date)
+    const toMs = (t) =>
+      t?.seconds ? t.seconds * 1000 :
+      (typeof t?.toDate === "function" ? t.toDate().getTime() : NaN);
+
+    const getTime = (a) => {
+      const c = toMs(a?.createdAt);
+      if (!isNaN(c)) return c;
+      const u = toMs(a?.updatedAt);
+      if (!isNaN(u)) return u;
+      const p = Date.parse(a?.publishedDate);
+      return isNaN(p) ? 0 : p;
+    };
+
+    items.sort((a,b) => getTime(b) - getTime(a));
+    items.forEach(a => renderOneCard(a, false));
+  }
+
   // --- Import d'article via Cloud Function ---
   const provider = new GoogleAuthProvider();
   if (goBtn) {
@@ -482,78 +545,25 @@
         const call = httpsCallable(functions, "importArticleFromUrl");
         const { data } = await call({ url });
 
-        // petit aperçu d'info
+        // Feedback rapide
         if (status) status.textContent = "✅ Article créé (#" + data.id + ")";
         if (ptitle) ptitle.textContent = data.title || "(Sans titre)";
         if (psum) psum.textContent = data.summary || "";
         if (data.imageUrl && pimg && prev) { pimg.src = data.imageUrl; prev.style.display = "flex"; }
 
-        // (Optionnel) insertion immédiate dans la grille aussi :
-        renderOneCardIntoGrid({
-          title: data.title,
-          summary: data.summary,
-          imageUrl: data.imageUrl,
-          sourceUrl: data.sourceUrl,
-          slug: data.slug
-        }, /*insertAtTop*/ false);
+        // Recharge la liste pour afficher tout de suite
+        await loadArticlesFromAnywhere();
       } catch (err) {
         if (status) status.textContent = "Erreur : " + (err?.message || err);
       }
     });
   }
 
-  // --- Affichage dans TA grille .articles-grid.container (même carte que les anciennes) ---
-  const grid = document.querySelector(".articles-grid.container");
-
-  // Abonnement temps réel Firestore : on (re)rend uniquement les cartes dynamiques
-  if (grid) {
-    const q = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(24));
-
-    onSnapshot(q, (snap) => {
-      // on supprime d'abord les anciennes cartes dynamiques pour éviter les doublons
-      grid.querySelectorAll('.card[data-dyn="1"]').forEach(el => el.remove());
-
-      snap.forEach(doc => {
-        const a = doc.data();
-        renderOneCardIntoGrid(a, /*insertAtTop*/ false);
-      });
-    });
-  }
-
-  // Rend UNE carte dans la grille avec EXACTEMENT ta structure HTML
-  function renderOneCardIntoGrid(a, insertAtTop = false) {
-    if (!grid) return;
-    const title = esc(a?.title || "(Sans titre)");
-    const summary = esc((a?.summary || "").toString());
-    const img = a?.imageUrl;
-    const href = a?.sourceUrl || (a?.slug ? `/article/${a.slug}` : "#");
-
-    const cardHtml = `
-      <div class="card" data-dyn="1">
-        ${href && href !== "#" ? `<a href="${href}" target="_blank">` : ""}
-          ${img ? `<img src="${img}" class="card-img-top" alt="Image Article">` : ""}
-        ${href && href !== "#" ? `</a>` : ""}
-        <div class="card-body">
-          <h5 class="card-title">${title}</h5>
-          <p class="card-text">${summary}</p>
-        </div>
-      </div>
-    `;
-
-    grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", cardHtml);
-  }
-
-  // petite sécurité contre l'injection HTML
-  function esc(s){
-    return (s || "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#39;");
-  }
+  // 1er affichage au chargement de la page
+  loadArticlesFromAnywhere();
 </script>
 <!-- ========= FIN SCRIPT FIREBASE ========= -->
+
 
 
 
