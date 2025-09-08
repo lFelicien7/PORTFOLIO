@@ -38,7 +38,7 @@
                 Etudes
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownEtudes">
-                <li><a class="dropdown-item" href="BTS_SIO.html">BTS SIO</a></li>
+                <li><a class="dropdown-item" href="SIO.html">BTS SIO</a></li>
                 <li><a class="dropdown-item" href="#">Certifications</a></li>
               </ul>
             </li>
@@ -97,25 +97,6 @@
 <!-- Ajout d'une div vide pour espacer les sections -->
 <div class="spacer2"></div>
 
-  <!-- ========= AJOUT FORMULAIRE FIREBASE ========= -->
-  <div class="container my-5">
-    <h2>Importer un article via URL</h2>
-    <p class="text-muted">Colle un lien d'article (presse, blog, etc.).</p>
-    <div class="input-group mb-3">
-      <input id="url" type="url" class="form-control" placeholder="https://exemple.com/article">
-      <button id="go" class="btn btn-primary">Importer</button>
-    </div>
-    <div id="status" class="mb-3"></div>
-    <div id="preview" class="d-flex align-items-start" style="display:none">
-      <img id="pimg" width="100" class="me-3 rounded" />
-      <div>
-        <h5 id="ptitle"></h5>
-        <p id="psum" class="text-muted"></p>
-      </div>
-    </div>
-  </div>
-
-  
 <!-- Grille d'articles personnalisée -->
 <div class="articles-grid container">
   
@@ -382,6 +363,7 @@
       <p class="card-text">Si on sait d’ores et déjà que les outils d’intelligence artificielle comme ChatGPT, Meta AI, ou encore Google Gemini ne sont pas encore utilisés par l’ensemble du grand public, les derniers chiffres qui viennent d’être publiés à ce sujet pourraient être annonciateurs d’un futur bouleversement dans les usages…</p>
     </div>
   </div>
+
 </div>
 
 <!-- Footer -->
@@ -432,106 +414,6 @@
 
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-  import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-functions.js";
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyD7P4fQfQAc1jpTcdpZwNYXCW0RaNOQHfQ",
-    authDomain: "portfolio-automatisation.firebaseapp.com",
-    projectId: "portfolio-automatisation",
-    storageBucket: "portfolio-automatisation.appspot.com",
-    messagingSenderId: "577854139349",
-    appId: "1:577854139349:web:daae03a251a0008c60ab5c",
-    measurementId: "G-Z12FYT1PP2"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const functions = getFunctions(app, "europe-west1");
-  const db = getFirestore(app); // pas utilisé ici mais ok
-
-  const urlInput = document.getElementById("url");
-  const goBtn = document.getElementById("go");
-  const status = document.getElementById("status");
-  const prev = document.getElementById("preview");
-  const pimg = document.getElementById("pimg");
-  const ptitle = document.getElementById("ptitle");
-  const psum = document.getElementById("psum");
-
-  const grid = document.querySelector(".articles-grid.container") || document.querySelector(".container.articles-grid");
-
-  const esc = (s) => (s || "")
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
-
-  function renderOneCard(a, insertAtTop = false) {
-    if (!grid) return;
-    const title = esc(a?.title || a?.titre || "(Sans titre)");
-    const summary = esc((a?.summary || a?.content || "").toString().slice(0, 400));
-    const img = a?.imageUrl || a?.image || "";
-    const href = a?.sourceUrl || a?.link || (a?.slug ? `/article/${a.slug}` : "#");
-
-    const html = `
-      <div class="card" data-dyn="1">
-        ${href && href !== "#" ? `<a href="${href}" target="_blank">` : ""}
-          ${img ? `<img src="${img}" class="card-img-top" alt="Image Article">` : ""}
-        ${href && href !== "#" ? `</a>` : ""}
-        <div class="card-body">
-          <h5 class="card-title">${title}</h5>
-          <p class="card-text">${summary}</p>
-        </div>
-      </div>
-    `;
-    grid.insertAdjacentHTML(insertAtTop ? "afterbegin" : "beforeend", html);
-  }
-
-  const provider = new GoogleAuthProvider();
-  if (goBtn) {
-    goBtn.addEventListener("click", async () => {
-      if (!auth.currentUser) {
-        try { await signInWithPopup(auth, provider); }
-        catch { await signInWithRedirect(auth, provider); return; }
-      }
-
-      const url = (urlInput?.value || "").trim();
-      if (!url) { if (status) status.textContent = "⚠️ Mets une URL d’abord"; return; }
-
-      try {
-        if (status) status.textContent = "Import en cours...";
-        const call = httpsCallable(functions, "importArticleFromUrl");
-        const { data } = await call({ url });
-
-        if (status) status.textContent = `✅ ${data?.updated ? "Mis à jour" : "Créé"} (#${data.id})`;
-        if (ptitle) ptitle.textContent = data.title || "(Sans titre)";
-        if (psum)   psum.textContent   = data.summary || "";
-        if (data.imageUrl && pimg && prev) { pimg.src = data.imageUrl; prev.style.display = "flex"; }
-
-        // 👉 Affiche UNIQUEMENT l’article importé
-        renderOneCard({
-          title: data.title,
-          summary: data.summary,
-          imageUrl: data.imageUrl,
-          sourceUrl: data.sourceUrl,
-          slug: data.slug
-        }, true);
-
-      } catch (err) {
-        if (status) status.textContent = "Erreur : " + (err?.message || err);
-        console.error(err);
-      }
-    });
-  }
-</script>
-
-
-
-
-
-
-
 
 </body>
 </html>
