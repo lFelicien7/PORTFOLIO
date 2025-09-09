@@ -79,3 +79,4 @@
 .text-md-start, .text-center h1 {
   color: #ffffff;  /* Texte en blanc */
 }
+#list-ia { display: contents; }  /* le wrapper ne prend plus de place dans la grid */
