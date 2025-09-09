@@ -46,20 +46,22 @@ function buildDoc(info, urlFallback) {
   };
 }
 
-// 6) Rendu en **carte Bootstrap** et insertion **devant** les autres
+// 6) Rendu en carte Bootstrap identique à tes cartes statiques
 function renderArticle(containerId, article) {
-  // on vise la grille principale en priorité
+  // cible la grille principale (ton HTML: <div class="articles-grid container">)
   const grid = document.querySelector(".articles-grid");
-  // fallback: conteneur dédié si tu en as un (ex: #list-ia)
   const fallback = containerId ? document.getElementById(containerId) : null;
   const target = grid || fallback;
   if (!target) return;
 
   const el = document.createElement("div");
   el.className = "card";
+
   el.innerHTML = `
-    <a href="${article.url}" target="_blank" rel="noopener">
-      <img src="${article.image}" class="card-img-top" alt="${article.title}">
+    <a href="${article.url}" target="_blank">
+      <div class="card-img-wrapper">
+        <img src="${article.image}" class="card-img-top" alt="${article.title}">
+      </div>
     </a>
     <div class="card-body">
       <h5 class="card-title">${article.title}</h5>
@@ -67,9 +69,10 @@ function renderArticle(containerId, article) {
     </div>
   `;
 
-  // prepend = affiche avant toutes les cartes déjà présentes
+  // insère AVANT les cartes existantes
   target.prepend(el);
 }
+
 
 // 7) Flux “Ajouter un article”
 async function addArticleFlow() {
