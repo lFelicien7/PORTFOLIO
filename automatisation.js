@@ -46,42 +46,32 @@ function buildDoc(info, urlFallback) {
   };
 }
 
+// 6) Rendu en carte Bootstrap identique à tes cartes statiques
 function renderArticle(containerId, article) {
-  // skip cartes incomplètes
-  if (!article || !article.title || !article.url) return;
-
-  // cible prioritaire : #list-ia, sinon .articles-grid
-  const target =
-    (containerId && document.getElementById(containerId)) ||
-    document.querySelector(".articles-grid");
+  // cible la grille principale (ton HTML: <div class="articles-grid container">)
+  const grid = document.querySelector(".articles-grid");
+  const fallback = containerId ? document.getElementById(containerId) : null;
+  const target = grid || fallback;
   if (!target) return;
 
   const el = document.createElement("div");
   el.className = "card";
+
   el.innerHTML = `
-    <a href="${article.url}" target="_blank" rel="noopener">
+    <a href="${article.url}" target="_blank">
       <div class="card-img-wrapper">
-        <img src="${article.image || 'images/placeholder.png'}"
-             class="card-img-top"
-             alt="${article.title}">
+        <img src="${article.image}" class="card-img-top" alt="${article.title}">
       </div>
     </a>
     <div class="card-body">
       <h5 class="card-title">${article.title}</h5>
-      <p class="card-text">${article.summary || ''}</p>
+      <p class="card-text">${article.summary}</p>
     </div>
   `;
 
-  // fallback image si erreur de chargement
-  const img = el.querySelector("img");
-  img.addEventListener("error", () => {
-    img.src = "images/placeholder.png";
-  });
-
-  // insérer en premier
+  // insère AVANT les cartes existantes
   target.prepend(el);
 }
-
 
 
 // 7) Flux “Ajouter un article”
@@ -107,17 +97,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("add-ia")?.addEventListener("click", addArticleFlow);
 
   // au chargement, on liste ce qui est déjà dans Firestore
-// au chargement, on liste ce qui est déjà dans Firestore
-try {
-  const snap = await getDocs(collection(db, COLLECTION));
-  snap.forEach(doc => {
-    const a = doc.data();
-    // on n’affiche que si le doc est valide
-    if (a && a.title && a.url) {
-      renderArticle("list-ia", a);
-    }
-  });
-} catch (e) {
-  console.error("Erreur chargement initial :", e);
-}
+  try {
+    const snap = await getDocs(collection(db, COLLECTION));
+    snap.forEach(doc => renderArticle("list-ia", doc.data()));
+  } catch (e) {
+    console.error("Erreur chargement initial :", e);
+  }
 });
