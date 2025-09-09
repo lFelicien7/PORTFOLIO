@@ -46,21 +46,29 @@ function buildDoc(info, urlFallback) {
   };
 }
 
-// 6) Rendu sur la page
+// 6) Rendu en **carte Bootstrap** et insertion **devant** les autres
 function renderArticle(containerId, article) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
+  // on vise la grille principale en priorité
+  const grid = document.querySelector(".articles-grid");
+  // fallback: conteneur dédié si tu en as un (ex: #list-ia)
+  const fallback = containerId ? document.getElementById(containerId) : null;
+  const target = grid || fallback;
+  if (!target) return;
 
-  const el = document.createElement("article");
-  el.className = "article-flex";
+  const el = document.createElement("div");
+  el.className = "card";
   el.innerHTML = `
-    <img src="${article.image}" alt="${article.title}" />
-    <div class="article-content">
-      <h3><a href="${article.url}" target="_blank" rel="noopener">${article.title}</a></h3>
-      <p>${article.summary}</p>
+    <a href="${article.url}" target="_blank" rel="noopener">
+      <img src="${article.image}" class="card-img-top" alt="${article.title}">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">${article.title}</h5>
+      <p class="card-text">${article.summary}</p>
     </div>
   `;
-  container.prepend(el); // affichage instantané en haut de liste
+
+  // prepend = affiche avant toutes les cartes déjà présentes
+  target.prepend(el);
 }
 
 // 7) Flux “Ajouter un article”
@@ -72,7 +80,7 @@ async function addArticleFlow() {
     const info = await fetchMeta(url);         // (2) récupérer données
     const docData = buildDoc(info, url);       // normaliser
     await addDoc(collection(db, COLLECTION), docData); // (2) -> Firestore
-    renderArticle("list-ia", docData);         // (3) -> Page
+    renderArticle("list-ia", docData);         // (3) -> Page (prepend)
     alert("Article ajouté ✅");
   } catch (e) {
     console.error(e);
