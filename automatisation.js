@@ -106,6 +106,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // bouton “Ajouter un article (IA)”
   document.getElementById("add-ia")?.addEventListener("click", addArticleFlow);
 
+  // au chargement, on liste ce qui est déjà dans Firestore
 // au chargement, on liste ce qui est déjà dans Firestore
 try {
   const snap = await getDocs(collection(db, COLLECTION));
@@ -119,3 +120,4 @@ try {
 } catch (e) {
   console.error("Erreur chargement initial :", e);
 }
+});
