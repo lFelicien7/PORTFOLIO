@@ -1,13 +1,13 @@
-// automatisation.js  (module ESM dans ton HTML)
+// automatisation.js — à charger avec <script type="module" …>
 
-// Firebase via CDN ESM
+// 1) Firebase via CDN ESM
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
 import {
   getFirestore, collection, getDocs, addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
-// -- TA CONFIG (inchangée) --
+// 2) TA CONFIG (celle que tu m’as donnée)
 const firebaseConfig = {
   apiKey: "AIzaSyAuKbCg8c6y17uwpD0hhRTw3jgjanuPThs",
   authDomain: "portfolio-f82af.firebaseapp.com",
@@ -19,72 +19,60 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// Analytics peut jeter en HTTP: on garde l'appli en vie
-try { getAnalytics(app); } catch (e) { /* ignore */ }
+try { getAnalytics(app); } catch { /* ignore en HTTP */ }
 const db = getFirestore(app);
 
-// ⚠️ Mettre des identifiants en clair côté client n'est pas sûr.
-// Garde ça temporaire si le site n'est pas public.
-const ADMIN_LOGIN = "felicien.lantoine@gmail.com";
-const ADMIN_PASSWORD = "Felicien81";
+// 3) Nom de collection pour cette page IA
+const COLLECTION = "articles-IA"; // (sur la page Cyber, mets "articles-cyber")
 
-const COLLECTION_IA = "articles-IA";
-const COLLECTION_CYBER = "articles-cyber";
-
-function renderArticle(containerId, article) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  const el = document.createElement("article");
-  el.className = "article-flex";
-  el.innerHTML = `
-    <img src="${article.image || 'images/placeholder.png'}" alt="${article.title || 'Image'}" />
-    <div class="article-content">
-      <h3><a href="${article.url || '#'}" target="_blank" rel="noopener">${article.title || 'Titre indisponible'}</a></h3>
-      <p>${article.summary || ''}</p>
-    </div>
-  `;
-  container.prepend(el);
-}
-
-async function loadCollection(collectionName, containerId) {
-  try {
-    const snap = await getDocs(collection(db, collectionName));
-    snap.forEach(doc => renderArticle(containerId, doc.data()));
-  } catch (e) {
-    console.error(`Erreur chargement ${collectionName}:`, e);
-  }
-}
-
+// 4) Récupération des métadonnées depuis l’URL (Microlink)
 async function fetchMeta(url) {
   const apiURL = `https://api.microlink.io/?url=${encodeURIComponent(url)}&audio=false&video=false&iframe=false`;
   const res = await fetch(apiURL);
-  const data = await res.json();
-  if (data.status !== "success") throw new Error("Microlink error");
-  return data.data;
+  const json = await res.json();
+  if (json.status !== "success") throw new Error("Microlink error");
+  return json.data;
 }
 
-async function addArticleTo(collectionName, containerId) {
-  const login = prompt("Identifiant ?");
-  if (login !== ADMIN_LOGIN) return alert("Identifiant incorrect.");
-  const pwd = prompt("Mot de passe ?");
-  if (pwd !== ADMIN_PASSWORD) return alert("Mot de passe incorrect.");
-
-  const url = (prompt("Colle l'URL de l'article :") || "").trim();
-  if (!url) return alert("URL vide.");
-
+// 5) Construction du doc Firestore à partir des métadonnées
+function buildDoc(info, urlFallback) {
   const now = new Date();
-  const dateStr = `(${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()})`;
+  const dateStr = `(${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()})`;
+  return {
+    title: info.title || "Titre non disponible",
+    summary: `${dateStr} – ${info.description || "Description non disponible"}`,
+    image: info.image?.url || "images/placeholder.png",
+    url: info.url || urlFallback
+  };
+}
+
+// 6) Rendu sur la page
+function renderArticle(containerId, article) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const el = document.createElement("article");
+  el.className = "article-flex";
+  el.innerHTML = `
+    <img src="${article.image}" alt="${article.title}" />
+    <div class="article-content">
+      <h3><a href="${article.url}" target="_blank" rel="noopener">${article.title}</a></h3>
+      <p>${article.summary}</p>
+    </div>
+  `;
+  container.prepend(el); // affichage instantané en haut de liste
+}
+
+// 7) Flux “Ajouter un article”
+async function addArticleFlow() {
+  const url = (prompt("Colle l'URL de l'article :") || "").trim();
+  if (!url) return; // utilisateur a annulé ou vide
 
   try {
-    const info = await fetchMeta(url);
-    const docData = {
-      image: info.image?.url || "images/placeholder.png",
-      summary: `${dateStr} – ${info.description || "Description non disponible"}`,
-      title: info.title || "Titre non disponible",
-      url: info.url || url
-    };
-    await addDoc(collection(db, collectionName), docData); // ➜ Firestore
-    renderArticle(containerId, docData);                    // ➜ Page
+    const info = await fetchMeta(url);         // (2) récupérer données
+    const docData = buildDoc(info, url);       // normaliser
+    await addDoc(collection(db, COLLECTION), docData); // (2) -> Firestore
+    renderArticle("list-ia", docData);         // (3) -> Page
     alert("Article ajouté ✅");
   } catch (e) {
     console.error(e);
@@ -92,16 +80,16 @@ async function addArticleTo(collectionName, containerId) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // câblage boutons
-  document.getElementById("add-ia")?.addEventListener("click", () => {
-    addArticleTo(COLLECTION_IA, "list-ia");
-  });
-  document.getElementById("add-cyber")?.addEventListener("click", () => {
-    addArticleTo(COLLECTION_CYBER, "list-cyber");
-  });
+// 8) Câblage bouton + chargement initial
+document.addEventListener("DOMContentLoaded", async () => {
+  // bouton “Ajouter un article (IA)”
+  document.getElementById("add-ia")?.addEventListener("click", addArticleFlow);
 
-  // chargement initial
-  loadCollection(COLLECTION_IA, "list-ia");
-  loadCollection(COLLECTION_CYBER, "list-cyber");
+  // au chargement, on liste ce qui est déjà dans Firestore
+  try {
+    const snap = await getDocs(collection(db, COLLECTION));
+    snap.forEach(doc => renderArticle("list-ia", doc.data()));
+  } catch (e) {
+    console.error("Erreur chargement initial :", e);
+  }
 });
