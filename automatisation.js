@@ -46,30 +46,33 @@ function buildDoc(info, urlFallback) {
   };
 }
 
-// 6) Rendu en carte Bootstrap identique à tes cartes statiques
+// 6) Rendu en carte identique à tes anciennes (sans wrapper)
 function renderArticle(containerId, article) {
-  // cible la grille principale (ton HTML: <div class="articles-grid container">)
+  if (!article || !article.title || !article.url) return;
+
+  // on insère en haut de la grille
   const grid = document.querySelector(".articles-grid");
-  const fallback = containerId ? document.getElementById(containerId) : null;
-  const target = grid || fallback;
+  const target = grid || (containerId && document.getElementById(containerId));
   if (!target) return;
 
   const el = document.createElement("div");
   el.className = "card";
-
   el.innerHTML = `
-    <a href="${article.url}" target="_blank">
-      <div class="card-img-wrapper">
-        <img src="${article.image}" class="card-img-top" alt="${article.title}">
-      </div>
+    <a href="${article.url}" target="_blank" rel="noopener">
+      <img src="${article.image || 'images/placeholder.png'}"
+           class="card-img-top"
+           alt="${article.title}">
     </a>
     <div class="card-body">
       <h5 class="card-title">${article.title}</h5>
-      <p class="card-text">${article.summary}</p>
+      <p class="card-text">${article.summary || ''}</p>
     </div>
   `;
 
-  // insère AVANT les cartes existantes
+  // fallback image si erreur
+  const img = el.querySelector("img");
+  img.addEventListener("error", () => { img.src = "images/placeholder.png"; });
+
   target.prepend(el);
 }
 
