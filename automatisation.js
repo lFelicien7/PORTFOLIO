@@ -1,14 +1,11 @@
-// === Firebase (SDK modulaire) ===
-// Remplace la config ci-dessous par TES identifiants Firebase
-// (apiKey, authDomain, projectId, etc.)
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// ----- Firebase (browser ESM) -----
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
+import {
+  getFirestore, collection, getDocs, addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// 🔧 TA CONFIG FIREBASE (tu peux garder celle ci-dessous ou la remplacer par la tienne)
 const firebaseConfig = {
   apiKey: "AIzaSyAuKbCg8c6y17uwpD0hhRTw3jgjanuPThs",
   authDomain: "portfolio-f82af.firebaseapp.com",
@@ -19,23 +16,23 @@ const firebaseConfig = {
   measurementId: "G-YGMW3XPBC5"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Analytics plante en http non sécurisé → on protège
+try { getAnalytics(app); } catch { /* ignore */ }
+const db = getFirestore(app);
 
-// === Mini "auth" admin par prompt (remplace par tes valeurs) ===
-const ADMIN_LOGIN = "felicien.lantoine@gmail.com";        // <-- remplace ici
-const ADMIN_PASSWORD = "Felicien81";   // <-- remplace ici
+// ----- Mini "auth" admin (prompts) -----
+const ADMIN_LOGIN = "felicien.lantoine@gmail.com";   // ← remplace si tu veux
+const ADMIN_PASSWORD = "Felicien81";                 // ← remplace si tu veux
 
-// === Noms des collections Firestore ===
+// ----- Collections -----
 const COLLECTION_IA = "articles-IA";
 const COLLECTION_CYBER = "articles-cyber";
 
-// === Rendu d'un article dans un conteneur ===
+// ----- UI render -----
 function renderArticle(containerId, article) {
   const container = document.getElementById(containerId);
   if (!container) return;
-
   const el = document.createElement("article");
   el.className = "article-flex";
   el.innerHTML = `
@@ -45,13 +42,10 @@ function renderArticle(containerId, article) {
       <p>${article.summary || ''}</p>
     </div>
   `;
-
-  // Prépend (dernier ajouté en haut)
-  if (container.firstChild) container.insertBefore(el, container.firstChild);
-  else container.appendChild(el);
+  container.prepend(el);
 }
 
-// === Chargement d'une collection et affichage ===
+// ----- Load collection -----
 async function loadCollection(collectionName, containerId) {
   try {
     const snap = await getDocs(collection(db, collectionName));
@@ -61,7 +55,7 @@ async function loadCollection(collectionName, containerId) {
   }
 }
 
-// === Récupération métadonnées via Microlink ===
+// ----- Fetch metadata -----
 async function fetchMeta(url) {
   const apiURL = `https://api.microlink.io/?url=${encodeURIComponent(url)}&audio=false&video=false&iframe=false`;
   const res = await fetch(apiURL);
@@ -70,9 +64,8 @@ async function fetchMeta(url) {
   return data.data;
 }
 
-// === Ajout d'un article (avec auto-génération titre/résumé/image) ===
+// ----- Add article flow -----
 async function addArticleTo(collectionName, containerId) {
-  // pseudo-auth simple
   const login = prompt("Identifiant ?");
   if (login !== ADMIN_LOGIN) return alert("Identifiant incorrect.");
   const pwd = prompt("Mot de passe ?");
@@ -81,23 +74,20 @@ async function addArticleTo(collectionName, containerId) {
   const url = (prompt("Colle l'URL de l'article :") || "").trim();
   if (!url) return alert("URL vide.");
 
-  // Date courte pour préfixer le résumé
   const now = new Date();
   const dateStr = `(${now.getMonth()+1}/${now.getDate()}/${now.getFullYear()})`;
 
   try {
     const info = await fetchMeta(url);
-
     const docData = {
       image: info.image?.url || "img/5G.png",
       summary: `${dateStr} – ${info.description || "Description non disponible"}`,
       title: info.title || "Titre non disponible",
       url: info.url || url
-      // (tu peux ajouter createdAt/serverTimestamp() si tu veux trier par date ajout)
     };
 
-    await addDoc(collection(db, collectionName), docData);
-    renderArticle(containerId, docData);
+    await addDoc(collection(db, collectionName), docData); // ➜ Firestore
+    renderArticle(containerId, docData);                    // ➜ Page
     alert("Article ajouté ✅");
   } catch (e) {
     console.error(e);
@@ -105,16 +95,15 @@ async function addArticleTo(collectionName, containerId) {
   }
 }
 
-// === Écouteurs boutons (assure-toi d'avoir ces IDs dans le HTML) ===
-document.getElementById("add-ia")?.addEventListener("click", () => {
-  addArticleTo(COLLECTION_IA, "list-ia");
-});
-document.getElementById("add-cyber")?.addEventListener("click", () => {
-  addArticleTo(COLLECTION_CYBER, "list-cyber");
-});
+// ----- Wire buttons & initial load -----
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("add-ia")?.addEventListener("click", () => {
+    addArticleTo(COLLECTION_IA, "list-ia");
+  });
+  document.getElementById("add-cyber")?.addEventListener("click", () => {
+    addArticleTo(COLLECTION_CYBER, "list-cyber");
+  });
 
-// === Chargement initial (assure-toi d'avoir #list-ia et #list-cyber) ===
-window.addEventListener("load", () => {
   loadCollection(COLLECTION_IA, "list-ia");
   loadCollection(COLLECTION_CYBER, "list-cyber");
 });
