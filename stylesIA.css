@@ -80,3 +80,11 @@
   color: #ffffff;  /* Texte en blanc */
 }
 #list-ia { display: contents; }  /* le wrapper ne prend plus de place dans la grid */
+
+/* Force identical size for dynamic cards too */
+.articles-grid .card > a > img.card-img-top {
+  height: 200px !important;
+  width: 100% !important;
+  object-fit: cover !important;
+  display: block;
+}
