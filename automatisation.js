@@ -1,11 +1,13 @@
-// ----- Firebase (browser ESM) -----
+// automatisation.js  (module ESM dans ton HTML)
+
+// Firebase via CDN ESM
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
 import {
   getFirestore, collection, getDocs, addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
-// 🔧 TA CONFIG FIREBASE (tu peux garder celle ci-dessous ou la remplacer par la tienne)
+// -- TA CONFIG (inchangée) --
 const firebaseConfig = {
   apiKey: "AIzaSyAuKbCg8c6y17uwpD0hhRTw3jgjanuPThs",
   authDomain: "portfolio-f82af.firebaseapp.com",
@@ -17,26 +19,25 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// Analytics plante en http non sécurisé → on protège
-try { getAnalytics(app); } catch { /* ignore */ }
+// Analytics peut jeter en HTTP: on garde l'appli en vie
+try { getAnalytics(app); } catch (e) { /* ignore */ }
 const db = getFirestore(app);
 
-// ----- Mini "auth" admin (prompts) -----
-const ADMIN_LOGIN = "felicien.lantoine@gmail.com";   // ← remplace si tu veux
-const ADMIN_PASSWORD = "Felicien81";                 // ← remplace si tu veux
+// ⚠️ Mettre des identifiants en clair côté client n'est pas sûr.
+// Garde ça temporaire si le site n'est pas public.
+const ADMIN_LOGIN = "felicien.lantoine@gmail.com";
+const ADMIN_PASSWORD = "Felicien81";
 
-// ----- Collections -----
 const COLLECTION_IA = "articles-IA";
 const COLLECTION_CYBER = "articles-cyber";
 
-// ----- UI render -----
 function renderArticle(containerId, article) {
   const container = document.getElementById(containerId);
   if (!container) return;
   const el = document.createElement("article");
   el.className = "article-flex";
   el.innerHTML = `
-    <img src="${article.image || 'img/placeholder.png'}" alt="${article.title || 'Image'}" />
+    <img src="${article.image || 'images/placeholder.png'}" alt="${article.title || 'Image'}" />
     <div class="article-content">
       <h3><a href="${article.url || '#'}" target="_blank" rel="noopener">${article.title || 'Titre indisponible'}</a></h3>
       <p>${article.summary || ''}</p>
@@ -45,7 +46,6 @@ function renderArticle(containerId, article) {
   container.prepend(el);
 }
 
-// ----- Load collection -----
 async function loadCollection(collectionName, containerId) {
   try {
     const snap = await getDocs(collection(db, collectionName));
@@ -55,7 +55,6 @@ async function loadCollection(collectionName, containerId) {
   }
 }
 
-// ----- Fetch metadata -----
 async function fetchMeta(url) {
   const apiURL = `https://api.microlink.io/?url=${encodeURIComponent(url)}&audio=false&video=false&iframe=false`;
   const res = await fetch(apiURL);
@@ -64,7 +63,6 @@ async function fetchMeta(url) {
   return data.data;
 }
 
-// ----- Add article flow -----
 async function addArticleTo(collectionName, containerId) {
   const login = prompt("Identifiant ?");
   if (login !== ADMIN_LOGIN) return alert("Identifiant incorrect.");
@@ -80,12 +78,11 @@ async function addArticleTo(collectionName, containerId) {
   try {
     const info = await fetchMeta(url);
     const docData = {
-      image: info.image?.url || "img/5G.png",
+      image: info.image?.url || "images/placeholder.png",
       summary: `${dateStr} – ${info.description || "Description non disponible"}`,
       title: info.title || "Titre non disponible",
       url: info.url || url
     };
-
     await addDoc(collection(db, collectionName), docData); // ➜ Firestore
     renderArticle(containerId, docData);                    // ➜ Page
     alert("Article ajouté ✅");
@@ -95,8 +92,8 @@ async function addArticleTo(collectionName, containerId) {
   }
 }
 
-// ----- Wire buttons & initial load -----
 document.addEventListener("DOMContentLoaded", () => {
+  // câblage boutons
   document.getElementById("add-ia")?.addEventListener("click", () => {
     addArticleTo(COLLECTION_IA, "list-ia");
   });
@@ -104,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addArticleTo(COLLECTION_CYBER, "list-cyber");
   });
 
+  // chargement initial
   loadCollection(COLLECTION_IA, "list-ia");
   loadCollection(COLLECTION_CYBER, "list-cyber");
 });
