@@ -38,7 +38,7 @@
                 Etudes
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownEtudes">
-                <li><a class="dropdown-item" href="BTS_SIO.html">BTS SIO</a></li>
+                <li><a class="dropdown-item" href="SIO.html">BTS SIO</a></li>
                 <li><a class="dropdown-item" href="#">Certifications</a></li>
               </ul>
             </li>
@@ -90,16 +90,20 @@
   </div>
 
 <!-- Titre principal -->
-<div class="container mt-5">
-  <h1 class="text-md-start text-center">Intelligence Artificielle</h1>
+<div class="container mt-5 d-flex align-items-center justify-content-between">
+  <h1 class="text-md-start text-center mb-0">Intelligence Artificielle</h1>
+  <button id="add-ia" class="btn-add" type="button" aria-label="Ajouter un article">
+    <i class="fas fa-plus"></i>
+  </button>
 </div>
 
-<!-- Ajout d'une div vide pour espacer les sections -->
+<!-- Espacement optionnel -->
 <div class="spacer2"></div>
 
-<!-- Grille d'articles personnalisée -->
+<!-- ✅ Une seule grille qui contient TOUT (dynamique + statique) -->
 <div class="articles-grid container">
-  
+  <!-- Les articles ajoutés par JS seront prépend ici automatiquement -->
+
   <!-- Article 1 -->
   <div class="card">
     <a href="https://www.sciencesetavenir.fr/high-tech/intelligence-artificielle/ia-generative-sa-surconsommation-energetique-par-rapport-a-une-simple-requete-internet-a-ete-chiffree-et-elle-est-considerable_180779?utm_source=pocket_saves&xtor=RSS-12" target="_blank">
@@ -414,6 +418,8 @@
 
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
+<script type="module" src="automatisation.js"></script>
+
 
 </body>
 </html>

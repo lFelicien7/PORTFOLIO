@@ -137,6 +137,38 @@ body {
 .navbar-nav.show + .navbar-toggler-close {
   display: block;
 }
+/* --- Correctifs dropdown : n'afficher que le niveau ciblé --- */
+
+/* 1) Tout est caché par défaut */
+.dropdown-menu {
+  display: none;
+}
+
+/* 2) Premier niveau : n’afficher QUE l’enfant direct au survol de l’item E6 */
+.nav-item.dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
+/* 3) Sous-menu : caché par défaut et positionné à droite */
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu > .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-top: -0.25rem;
+}
+
+/* 4) Sous-menu : ne s'affiche qu'au survol de AP1 (sur desktop/pointeur fin) */
+@media (hover: hover) and (pointer: fine) {
+  .dropdown.show .dropdown-submenu:hover > .dropdown-menu,
+  /* si tu n'utilises pas .show de Bootstrap, tu peux garder aussi la ligne suivante : */
+  .dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+  }
+}
 
 /* ========================================================================
    FIL D'ARIANE (Fil d'Ariane utilisé pour la navigation sur le site)

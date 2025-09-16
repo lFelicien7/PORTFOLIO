@@ -22,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 try { getAnalytics(app); } catch { /* ignore en HTTP */ }
 const db = getFirestore(app);
 
-// 3) Nom de collection pour cette page IA
+// 3) Nom de collection pour cette page Cyber
 const COLLECTION = "articles-cyber"; // (sur la page Cyber, mets "articles-cyber")
 
 // 4) Récupération des métadonnées depuis l’URL (Microlink)
