@@ -79,33 +79,3 @@
 .text-md-start, .text-center h1 {
   color: #ffffff;  /* Texte en blanc */
 }
-
-/* Force identical size for dynamic cards too */
-.articles-grid .card > a > img.card-img-top {
-  height: 200px !important;
-  width: 100% !important;
-  object-fit: cover !important;
-  display: block;
-}
-
-
-.btn-add {
-  background-color: #007bff; /* bleu bootstrap, tu peux changer */
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-add:hover {
-  background-color: #0056b3;
-  transform: scale(1.1);
-}
-
