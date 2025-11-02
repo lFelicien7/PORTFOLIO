@@ -1,0 +1,46 @@
+/* ========================================================================
+   CONTENU PRINCIPAL (Zones de texte pour chaque section)
+   ======================================================================== */
+
+/* Cadre pour les zones de texte ou d'images */
+.container-box {
+  background-color: #f2f2f2; /* Fond clair */
+  border: 1px solid #e0e0e0; /* Bordure grise */
+  padding: 30px; /* Espacement interne */
+  margin: 40px auto; /* Espacement extérieur */
+  border-radius: 10px; /* Coins arrondis */
+  max-width: 1200px; /* Limite la largeur pour une meilleure lisibilité */
+}
+
+/* Texte de la page Guide de bonnes conduites */
+.container-box h2, .container-box p, .container-box h3 {
+  color: #333333; /* Gris très foncé pour un meilleur contraste avec le fond */
+  font-weight: bold; /* Titres en gras */
+}
+
+/* Texte des listes */
+.container-box ul li {
+  color: #333333; /* Gris foncé pour les éléments de liste */
+}
+
+/* Zones d'image ou de texte à l'intérieur des boîtes */
+.container-box img {
+  max-width: 100%; /* Images responsives */
+  height: auto;
+  display: block;
+  margin: 30px auto; /* Espacement autour des images */
+}
+
+
+
+/* ========================================================================
+   RESPONSIVE STYLES (Adaptations pour petits écrans)
+   ======================================================================== */
+
+/* Responsivité pour les petits écrans */
+@media (max-width: 768px) {
+  .container-box {
+    margin: 10px;
+    padding: 15px;
+  }
+}

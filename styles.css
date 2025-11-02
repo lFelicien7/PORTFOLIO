@@ -1,0 +1,390 @@
+/* ========================================================================
+   GENERAL STYLES (Communs à tout le site) 
+   ======================================================================== */
+
+/* Applique la police Poppins, fond bleu foncé, et texte clair pour tout le body */
+body {
+  font-family: 'Poppins', sans-serif;  /* Police moderne */
+  margin: 0;
+  padding: 0;
+  background-color: #161F32;  /* Fond bleu foncé */
+}
+/* Section de Présentation */
+.presentation-section h2,
+.presentation-section p {
+  color: #ffffff;  /* Texte en blanc */
+}
+
+/* ========================================================================
+   HEADER STYLES (Communs à toutes les pages avec la barre de navigation)
+   ======================================================================== */
+
+/* En-tête fixé avec un fond noir */
+.header {
+  position: relative;
+  z-index: 1000;  /* Assure que l'en-tête est toujours au-dessus */
+}
+
+/* Style de la barre de navigation (menu) */
+.navbar {
+  background-color: #1d1d1d;  /* Fond noir pour la navbar */
+  box-shadow: none;  /* Retire l'ombre sous la navbar */
+  display: flex;
+  justify-content: flex-end;  /* Aligne les éléments à droite */
+  align-items: center;  /* Aligne les éléments verticalement */
+  padding-left: 20px;
+  padding-right: 20px;
+  flex-wrap: nowrap;  /* Empêche les éléments de passer à la ligne */
+}
+
+/* Logo ou texte à gauche */
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #f5f5f5;  /* Texte en blanc */
+  margin-right: 20px;
+  flex-shrink: 0;  /* Empêche le logo de se réduire si l'espace est limité */
+}
+
+/* Menu de navigation avec items */
+.navbar-nav {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  justify-content: flex-start;  /* Aligne les éléments à gauche */
+  flex-grow: 1;  /* Permet aux éléments de prendre toute la largeur disponible */
+}
+
+/* Style des éléments du menu */
+.navbar-nav .nav-item {
+  margin-right: 15px;
+}
+
+/* Style des liens de navigation */
+.navbar-nav .nav-link {
+  color: #ffffff !important;  /* Texte en blanc */
+  font-weight: 400;
+  padding-right: 8px;
+  padding-left: 8px;
+  text-transform: uppercase;  /* Majuscules */
+}
+
+/* Changement de couleur au survol des liens */
+.navbar-nav .nav-link:hover {
+  color: #1e90ff;  /* Bleu clair au survol */
+}
+
+.navbar-toggler-icon {
+  background-color: #f5f5f5;
+}
+/* Menu déroulant : apparait au survol */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block; /* Affiche le menu au survol */
+}
+
+/* Désactiver le clic sur les onglets avec un menu déroulant */
+.nav-item.dropdown .nav-link {
+  pointer-events: none; /* Désactive le clic */
+  color: #f5f5f5; /* Assure que la couleur reste blanche même si désactivé */
+}
+
+.nav-item.dropdown .nav-link:hover {
+  color: #f5f5f5; /* Garde la couleur blanche même au survol */
+}
+
+.dropdown-menu {
+  background-color: #1d1d1d;
+  border: 1px solid #444;
+  display: none; /* Cache le menu par défaut */
+  position: absolute; /* Positionner le menu par rapport à son parent */
+  z-index: 1000; /* Pour qu'il soit au-dessus des autres éléments */
+  left: 0;
+  top: 100%; /* Positionne le menu en dessous de l'élément parent */
+  width: max-content; /* Ajuste la largeur du menu selon son contenu */
+}
+/* Menu déroulant : contenu */
+.dropdown-item {
+  color: #f5f5f5;
+}
+
+.dropdown-item:hover {
+  color: #1e90ff;
+  background-color: #444;
+}
+
+/* Assurer que les deux boutons sont au même endroit */
+.navbar-toggler, .navbar-toggler-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: none;
+  border: none;
+  z-index: 1000; /* Assure que les boutons ne sont pas cachés sous d'autres éléments */
+}
+
+/* Masquer le bouton de fermeture par défaut */
+.navbar-toggler-close {
+  display: none;
+}
+
+/* Masquer le bouton hamburger lorsque le menu est ouvert */
+.navbar-nav.show + .navbar-toggler {
+  display: none;
+}
+
+/* Afficher le bouton de fermeture lorsque le menu est ouvert */
+.navbar-nav.show + .navbar-toggler-close {
+  display: block;
+}
+
+/* ========================================================================
+   FIL D'ARIANE (Fil d'Ariane utilisé pour la navigation sur le site)
+   ======================================================================== */
+
+/* Style du conteneur du fil d'Ariane */
+.breadcrumb-container {
+  background-color: #34495e; /* Gris-bleu pour le contraste */
+  padding: 10px 20px;
+  margin-top: 68px; /* Pour compenser la hauteur de la barre de navigation */
+  border-radius: 5px;
+}
+
+/* Liste de items du fil d'Ariane */
+.breadcrumb {
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.breadcrumb-item {
+  color: #f5f5f5; /* Texte blanc pour un meilleur contraste */
+}
+
+.breadcrumb-item a {
+  color: #f5f5f5;
+  text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+  color: #1e90ff; /* Bleu clair au survol */
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">"; /* Séparateur entre les éléments */
+  padding: 0 8px;
+  color: #f5f5f5;
+}
+
+.breadcrumb-item.active {
+  color: #bbbbbb; /* Gris pour le dernier élément actif */
+}
+
+
+/* ========================================================================
+   SPACER (Div vide pour espacer les sections)
+   ======================================================================== */
+
+.spacer {
+  height: 100px; /* Espacement entre les sections, ajustez selon votre besoin */
+}
+.spacer1 {
+  height: 50px; /* Espacement entre les sections, ajustez selon votre besoin */
+}
+.spacer2 {
+  height: 25px; /* Espacement entre les sections, ajustez selon votre besoin */
+}
+.spacer3 {
+  height: 10px; /* Espacement entre les sections, ajustez selon votre besoin */
+}
+
+/* ========================================================================
+   RESPONSIVE STYLES (Adaptations pour petits écrans)
+   ======================================================================== */
+
+/* Responsivité pour les petits écrans */
+@media (max-width: 768px) {
+  .navbar-nav {
+    display: flex;
+    flex-direction: column; /* Empile les éléments de manière verticale */
+    text-align: left;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    background-color: #111; /* Fond noir comme sur l'exemple */
+    position: absolute;
+    top: 70px; /* Pour décaler le menu sous la barre */
+    left: 0;
+    right: 0;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .navbar-nav.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .navbar-nav .nav-item {
+    margin: 10px 0; /* Espacement entre les éléments */
+    font-size: 16px;
+  }
+
+  .navbar-toggler {
+    background-color: transparent;
+    border: none;
+  }
+
+  .navbar-toggler-icon {
+    background-color: white;
+  }
+
+  /* Pour afficher les sous-menus dans le menu */
+  .dropdown-menu {
+    background-color: #111;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #333;
+  }
+}
+  /* Style du conteneur de la barre de navigation */
+  .navbar {
+    display: flex;
+    justify-content: space-between; /* Distribuer les éléments à gauche et à droite */
+    align-items: center; /* Centrer verticalement les éléments */
+  }
+
+  /* Style spécifique au bouton hamburger */
+  .navbar-toggler {
+    background: none;
+    border: none;
+    position: absolute;
+    right: 20px; /* Positionner à 20px du côté droit */
+    top: 50%; /* Placer verticalement au milieu */
+    transform: translateY(-50%); /* Centrer verticalement */
+  }
+
+
+
+/* ========================================================================
+   FOOTER
+   ======================================================================== */
+
+/* Footer */
+.footer {
+  background-color: #1d1d1d;  /* Fond noir pour le footer */
+  color: #f5f5f5;  /* Texte clair pour le contraste */
+  padding: 40px 0;  /* Espacement autour du contenu du footer */
+}
+
+.footer .container {
+  max-width: 1200px;  /* Largeur maximale du footer */
+  margin: 0 auto;  /* Centrer le footer */
+  padding: 0 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;  /* Espacement égal entre les sections */
+  flex-wrap: wrap;  /* Pour s'adapter aux petits écrans */
+  gap: 30px; /* Ajout d'un espacement entre les sections */
+}
+
+.footer-section {
+  flex: 1;
+  padding: 20px;
+}
+
+.footer-section h4 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.footer-section p, .footer-section ul {
+  font-size: 1rem;
+  color: #f5f5f5;
+}
+
+.footer-section a {
+  color: #f5f5f5;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  color: #f5f5f5;
+}
+
+.email-icon {
+  margin-right: 10px; /* Espacement entre l'icône et le texte */
+  font-size: 2,0rem; /* Taille de l'icône */
+}
+
+/* Enlever les points et laisser les flèches */
+.footer-section ul {
+  list-style-type: none; /* Enlève les puces de la liste */
+  padding: 0; /* Enlève les marges internes */
+}
+
+.footer-section ul li {
+  margin-bottom: 10px; /* Espacement entre les éléments de la liste */
+}
+
+/* Style des flèches */
+.footer-section ul li i {
+  margin-right: 10px; /* Espacement entre la flèche et le texte */
+  color: #f5f5f5; /* Couleur de la flèche */
+  font-size: 1.2rem; /* Taille des flèches */
+}
+
+
+/* ========================================================================
+   Responsive Footer - Sur petits écrans
+   ======================================================================== */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;  /* Les sections sont empilées verticalement */
+    text-align: center;  /* Centrer le texte */
+  }
+
+  .footer-section {
+    flex: 1 1 100%;  /* Chaque section prend toute la largeur disponible */
+    margin-bottom: 20px;  /* Espacement entre les sections */
+  }
+
+  .footer-section h4 {
+    font-size: 1.3rem;  /* Légèrement plus petit sur les petits écrans */
+  }
+
+  .footer-section p, .footer-section ul {
+    font-size: 0.9rem;  /* Réduire la taille du texte sur les petits écrans */
+  }
+}
+
+/* ========================================================================
+   Footer bottom (copyright) avec ligne de séparation
+   ======================================================================== */
+.footer-bottom {
+  text-align: center; /* Centrer le texte */
+  padding-top: 10px; /* Espacement avant le texte */
+  margin-top: 10px; /* Espacement avant le footer bottom */
+}
+
+.separator-line {
+  border-top: 2px solid #444; /* Ajoute une ligne de séparation */
+  margin-bottom: 20px; /* Espacement entre la ligne et le texte */
+}
+
+.footer-bottom p {
+  font-size: 1rem;
+  color: #f5f5f5;
+  margin: 0; /* Enlève la marge par défaut */
+}

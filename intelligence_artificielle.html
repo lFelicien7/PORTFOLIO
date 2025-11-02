@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersécurité sur les réseaux sociaux</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Lien vers le CDN de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS commun -->
+  <link rel="stylesheet" href="stylesIA.css"> <!-- Lien vers le fichier CSS externe -->
+</head>
+<body>
+
+  <!-- En-tête de la page -->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Mon Portfolio</a>
+
+        <!-- Bouton pour ouvrir le menu -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <!-- Bouton pour fermer le menu -->
+        <button class="navbar-toggler-close" type="button" aria-label="Close navigation" style="display: none;">
+          <i class="fas fa-times" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <!-- Accueil -->
+            <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+
+            <!-- Menu Études -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownEtudes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Études
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownEtudes">
+                <li><a class="dropdown-item" href="SIO.html">BTS SIO</a></li>
+                <li><a class="dropdown-item" href="#">Certifications</a></li>
+              </ul>
+            </li>
+
+            <!-- NOUVEL ONGLET combiné : Projets, Stages & Veille -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownPSV" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E5
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownPSV">
+                <!-- Veille technologique -->
+                <li><h6 class="dropdown-header">Veille technologique</h6></li>
+                <li><a class="dropdown-item" href="Veille_documentaire.html">Présentation</a></li>
+                <li><a class="dropdown-item" href="cybersecu.html">Cybersécurité sur les Réseaux Sociaux</a></li>
+                <li><a class="dropdown-item" href="intelligence_artificielle.html">Intelligence Artificielle</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Stages professionnels -->
+                <li><h6 class="dropdown-header">Stages professionnels</h6></li>
+                <li><a class="dropdown-item" href="BTS_SIO.html">BTS SIO - 1ère Année</a></li>
+                <li><a class="dropdown-item" href="#">BTS SIO - 2ème Année</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Projets d'AP (E6) -->
+                <li><h6 class="dropdown-header">EPREUVE E6</h6></li>
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+            </li>
+
+            <!-- Menu déroulant EPREUVE E6 -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownStage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E6
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownStage">
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+          </li>
+          
+            <!-- Lien vers la page "Guide de bonnes conduites" -->
+            <li class="nav-item"><a class="nav-link" href="guide_de_bonnes_conduites.html">Guide de bonnes conduites</a></li>
+          </ul><!-- fermeture de la liste -->
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Fil d'Ariane -->
+  <div class="breadcrumb-container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="Veille_documentaire.html">Veille technologique</a></li>
+        <li class="breadcrumb-item"><a href="intelligence_artificielle.html">Intelligence Artificielle</a></li>
+      </ol>
+    </nav>
+  </div>
+
+<!-- Titre principal -->
+<div class="container mt-5 d-flex align-items-center justify-content-between">
+  <h1 class="text-md-start text-center mb-0">Intelligence Artificielle</h1>
+  <button id="add-ia" class="btn-add" type="button" aria-label="Ajouter un article">
+    <i class="fas fa-plus"></i>
+  </button>
+</div>
+
+<!-- Espacement optionnel -->
+<div class="spacer2"></div>
+
+<!-- ✅ Une seule grille qui contient TOUT (dynamique + statique) -->
+<div class="articles-grid container">
+  <!-- Les articles ajoutés par JS seront prépend ici automatiquement -->
+
+  <!-- Article 1 -->
+  <div class="card">
+    <a href="https://www.sciencesetavenir.fr/high-tech/intelligence-artificielle/ia-generative-sa-surconsommation-energetique-par-rapport-a-une-simple-requete-internet-a-ete-chiffree-et-elle-est-considerable_180779?utm_source=pocket_saves&xtor=RSS-12" target="_blank">
+      <img src="images/co2.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">La pollution de l'IA générative</h5>
+      <p class="card-text">Spécialiste dans l’impact environnemental de l’IA, la chercheuse Sasha Luccioni alerte sur l’impact de la consommation de l’intelligence artificielle (IA) qui utilise « 30 fois plus d’énergie » qu’un moteur de recherche classique.</p>
+    </div>
+  </div>
+
+  <!-- Article 2 -->
+  <div class="card">
+    <a href="https://www.lemonde.fr/pixels/article/2024/09/12/intelligence-artificielle-google-vise-par-une-enquete-pour-son-utilisation-des-donnees-personnelles-au-sein-de-l-union-europeenne_6314727_4408996.html?utm_source=pocket_shared" target="_blank">
+      <img src="images/irlandais.avif" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Utilisation de DCP, la Commission irlandaise lance une enquête</h5>
+      <p class="card-text">La Commission irlandaise pour la protection des données a annoncé l’ouverture d’une enquête contre Google concernant l’utilisation des données personnelles des utilisateurs européens pour développer un de ses modèles d'IA.</p>
+    </div>
+  </div>
+
+  <!-- Article 3 -->
+  <div class="card">
+    <a href="https://www.actuia.com/actualite/ia-et-securite-routiere-la-france-devrait-se-doter-de-radars-intelligents-en-2025/" target="_blank">
+      <img src="images/radar.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">IA et sécurité routière, des radars intelligents en 2025</h5>
+      <p class="card-text">De nombreux pays utilisent désormais des radars routiers dotés d’IA pour améliorer la sécurité routière, la France prévoit de faire de même l’année prochaine, au grand dam d’associations d’usagers de la route.</p>
+    </div>
+  </div>
+
+  <!-- Article 4 -->
+  <div class="card">
+    <a href="https://www.actuia.com/actualite/limpact-de-lia-sur-laudiovisuel-et-le-role-de-la-legislation-europeenne-lanalyse-du-dernier-rapport-de-lobservatoire-europeen/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/europe.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">L’impact de l’IA sur l’audiovisuel</h5>
+      <p class="card-text">Le rapport de l’Observatoire européen de l’audiovisuel se penche en détail sur les changements profonds que l'IA impose à l’industrie audiovisuelle, et sur la nécessité d’une législation adéquate pour accompagner cette transformation.</p>
+    </div>
+  </div>
+
+  <!-- Article 5 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2024/11/05/jeff-bezos-et-openai-investissent-dans-physical-intelligence-la-startup-de-robotique-ia-valorisee-24-milliards-de-dollars/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/physical_intelligence.jpg" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Physical Intelligence : la startup de robotique IA</h5>
+      <p class="card-text">Physical Intelligence, une startup basée à San Francisco, spécialisée dans l’intelligence artificielle appliquée à la robotique, a récemment réussi à lever 400 millions de dollars. Cela porte sa valorisation post-money à 2,4 milliards de dollars selon CNBC.</p>
+    </div>
+  </div>
+
+  <!-- Article 6 -->
+  <div class="card">
+    <a href="https://www.usine-digitale.fr/article/une-faille-de-securite-expose-les-donnees-personnelles-de-800-000-automobilistes.N2224809" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/voiture.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">L’administration Biden publie un mémorandum historique pour encadrer l’IA</h5>
+      <p class="card-text">Le 30 octobre 2023, Joe Biden a émis un décret présidentiel historique visant à garantir que les Etats-Unis soient à l’avant-garde pour saisir les opportunités et gérer les risques de l’IA. Un an plus tard, il publie le tout premier Mémorandum de Sécurité Nationale (NSM) sur l’IA.</p>
+    </div>
+  </div>
+
+  <!-- Article 7 -->
+  <div class="card">
+    <a href="https://www.actuia.com/actualite/securite-nationale-ladministration-biden-publie-un-memorandum-historique-pour-encadrer-lia/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/joebiden.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">La Cour suprême confirme l’interdiction de TikTok</h5>
+      <p class="card-text">Le recours de TikTok contre la loi l’obligeant à être cédé par sa maison mère ByteDance à une entreprise non chinoise a été rejeté par la Cour suprême. Ainsi, à compter du dimanche 19 janvier, l’application aux Etats-Unis sera interdite.</p>
+    </div>
+  </div>
+
+  <!-- Article 8 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2024/12/30/les-failles-de-chatgpt-quand-lia-se-heurte-a-la-manipulation/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/chatgpt.jpg" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Les vulnérabilités de ChatGPT face aux manipulations malveillantes</h5>
+      <p class="card-text">ChatGPT, développé par OpenAI, est largement reconnu pour sa capacité à fournir des réponses précises et pertinentes. Cependant, des recherches récentes ont mis en évidence des failles exploitables par des acteurs malveillants.</p>
+    </div>
+  </div>
+
+  <!-- Article 9 -->
+  <div class="card">
+    <a href="https://www.actuia.com/actualite/lia-une-opportunite-en-or-pour-le-leadership-americain-la-vision-de-brad-smith-pdg-de-microsoft/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/brad_smith.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title"> L’IA : un levier stratégique pour le leadership américain selon Brad Smith</h5>
+      <p class="card-text">Dans un récent billet de blog intitulé « L’occasion en or pour l’IA américaine », Brad Smith, président de Microsoft, exprime une vision optimiste du rôle des États-Unis dans le domaine de l’intelligence artificielle (IA).</p>
+    </div>
+  </div>
+
+  <!-- Article 10 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/01/23/stargate-un-ambitieux-projet-ia-de-500-milliards-de-dollars-orchestre-par-softbank-openai-et-oracle-avec-lappui-de-donald-trump/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/stargate.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Stargate : un projet IA de 500 milliards de dollars orchestré par OpenAI, Oracle... avec l’appui de Donald Trump</h5>
+      <p class="card-text">Le projet Stargate, récemment annoncé, représente une initiative majeure dans le domaine de l’IA aux États-Unis. Avec un investissement prévu de 500 milliards de dollars sur quatre ans, ce programme vise à renforcer la position des États-Unis.</p>
+    </div>
+  </div>
+
+  <!-- Article 11 -->
+  <div class="card">
+    <a href="https://www.actuia.com/actualite/avertissement-de-la-bsa-leurope-risque-detre-en-retard-dans-la-course-a-lia/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/ia.jpg" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Avertissement de la BSA : “L’Europe risque d’être en retard dans la course à l’IA”</h5>
+      <p class="card-text">La Business Software Alliance (BSA), en collaboration avec sept autres organisations majeures, a récemment publié une déclaration conjointe exhortant l’Union européenne à réévaluer son approche réglementaire en matière d’intelligence artificielle (IA).</p>
+    </div>
+  </div>
+
+  <!-- Article 12 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/01/28/le-fiasco-de-lucie-lia-francaise-ridiculisee-suspend-sa-plateforme/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/lucie.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Lucie, l’IA française moquée, suspendue après un lancement chaotique</h5>
+      <p class="card-text">L’intelligence artificielle Lucie, développée par Linagora en partenariat avec le CNRS, a été suspendue seulement trois jours après son lancement. Présentée comme une alternative éthique et souveraine aux géants de l’IA, cette initiative, soutenue par le plan France 2030, a rapidement tourné au fiasco…</p>
+    </div>
+  </div>
+
+  <!-- Article 13 -->
+  <div class="card">
+    <a href="https://www.actuia.com/actualite/instadeep-lance-kyber-un-supercalculateur-proche-de-lexascale-en-region-parisienne/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/instadeep.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">InstaDeep dévoile Kyber, un supercalculateur proche de l’exascale</h5>
+      <p class="card-text">L’entreprise spécialisée en intelligence artificielle InstaDeep a annoncé le lancement de Kyber, un supercalculateur de pointe installé dans le data center Equinix de Saint-Denis, en région parisienne.</p>
+    </div>
+  </div>
+
+  <!-- Article 14 -->
+  <div class="card">
+    <a href="https://www.lemonde.fr/argent/article/2025/03/06/ia-et-art-un-duo-encore-fragile_6576685_1657007.html" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/ia-art.png" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">IA et art : une alliance encore fragile sur le marché</h5>
+      <p class="card-text">L’intelligence artificielle (IA) est en train de transformer de nombreux secteurs, y compris le domaine juridique. Cependant, cette évolution technologique pose des questions sur l’avenir de la profession d’avocat et sur les principes fondamentaux qui la sous-tendent.​</p>
+    </div>
+  </div>
+
+  <!-- Article 15 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/06/20/shadow-ai-un-salarie-sur-trois-utilise-lia-sans-en-parler-a-sa-direction/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/Shadow-Ai.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Shadow AI : un salarié sur trois utilise l’IA sans en parler à sa direction</h5>
+      <p class="card-text">Même si une récente étude a pu mettre en avant que seulement 32% des PME françaises avaient adopté l’intelligence artificielle, loin des entreprises aux Etats-Unis qui semblent moins réfractaires face à l’IA, un phénomène très inquiétant semble justement se développer dans ces mêmes organisations…</p>
+    </div>
+  </div>
+
+  <!-- Article 16 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/06/20/utiliser-chatgpt-diminue-notre-activite-cerebrale-le-mit-tire-la-sonnette-dalarme/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/chatgptcerveau.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Utiliser ChatGPT diminue notre activité cérébrale, le MIT lance l'alerte</h5>
+      <p class="card-text">Bien que cet échantillon ne permette pas encore d’affirmer une tendance générale, et qu’il ne s’agit pour le moment que d’une version préliminaire, cette étude permet de mettre en lumière certains comportements que les utilisateurs réguliers de ChatGPT ont sans doute déjà remarqué…</p>
+    </div>
+  </div>
+
+  <!-- Article 17 -->
+  <div class="card">
+    <a href="https://www.actuia.com/actualite/lessec-devoile-les-laureats-de-la-premiere-edition-du-grand-prix-ai-for-responsible-leadership/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/laureat.jpg" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Les lauréats du Grand Prix AI for Responsible Leadership</h5>
+      <p class="card-text">Ce Grand Prix s'inscrit dans le cadre de l'initiative "AI for Responsible Leadership" lancée en janvier dernier, Son objectif est d'équiper les dirigeants d’aujourd’hui et de demain des outils nécessaires pour relever les défis sociaux, économiques et environnementaux...</p>
+    </div>
+  </div>
+
+  <!-- Article 18 -->
+  <div class="card">
+    <a href="https://www.actuia.com/actualite/adobe-llm-optimizer-repenser-la-visibilite-des-marques-a-lere-de-la-recherche-generative/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/llm_optimizer.jfif" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Repenser la visibilité des marques à l’ère de la recherche générative</h5>
+      <p class="card-text">Avec l’essor des assistants conversationnels et des moteurs de recherche propulsés par des modèles de langage comme ChatGPT, Adobe anticipe cette mutation avec le lancement de LLM Optimizer...</p>
+    </div>
+  </div>
+
+  <!-- Article 19 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/06/24/ia-emails-e-commerce-ce-que-promet-comet-le-navigateur-futuriste-de-perplexity/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/perplexity.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">IA, emails, e-commerce : ce que promet Comet, le navigateur futuriste</h5>
+      <p class="card-text">Alors que certains de ses concurrents comme Google Gemini se démarquent avec des fonctionnalités comme le très décrié « AI Mode » qui menace la presse, Perplexity compte bien se faire une place de premier choix face aux géants de la tech…</p>
+    </div>
+  </div>
+
+  <!-- Article 20 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/06/24/quand-lhumain-parle-comme-chatgpt-une-etude-prouve-que-notre-langage-est-influence-par-lia/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/ia_langage.jpg" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Quand l’humain parle comme ChatGPT</h5>
+      <p class="card-text">C’est un constat qui est aussi amusant qu’inquiétant, et qui pourrait bien être le signe d’un appauvrissement du langage au fil des années. Alors que l’intelligence artificielle est censée s’inspirer d’un corpus de contenus produits par l’humain, la tendance n’est-elle pas en train de s’inverser ?</p>
+    </div>
+  </div>
+
+  <!-- Article 21 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/06/24/lintelligence-artificielle-aspire-le-web-a-grande-vitesse-49-de-trafic-robotise-en-neuf-mois/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/ia_trafic.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">L’intelligence artificielle aspire le web à grande vitesse : +49% de trafic robotisé en neuf mois</h5>
+      <p class="card-text">Depuis l’arrivée de l’intelligence artificielle, de nombreux éditeurs de médias en ligne craignent de perdre du trafic sur leurs sites web. Au mois d’avril dernier, le New-York Times aurait déjà perdu 36% de son trafic provenant de Google, avant même l’arrivée de nouvelles fonctionnalités...</p>
+    </div>
+  </div>
+
+  <!-- Article 22 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/06/25/top-des-outils-ia-qui-facilitent-vraiment-le-developpement-web/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/outils-ia.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Top des outils IA qui facilitent vraiment le développement web</h5>
+      <p class="card-text">Si certains apprenti-développeurs se servaient d’ores et déjà de ChatGPT pour faire du développement web, il existe aujourd’hui des outils d’IA spécialement conçus à cet effet, quelles sont donc les solutions les plus performantes du marché ?</p>
+    </div>
+  </div>
+
+  <!-- Article 23 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/06/25/ia-et-droits-dauteur-un-juge-donne-raison-a-anthropic-face-aux-ecrivains-americains/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/da-ia.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">IA et droits d’auteur : un juge donne raison à Anthropic face aux écrivains américains</h5>
+      <p class="card-text">Depuis l’apparition de ChatGPT en novembre 2022, les accusations des sites de presse et des créateurs de contenu ne cessent de se multiplier, et si jusqu’à présent, on pouvait évoquer un « flou juridique« , une récente décision pourrait bien être prise comme exemple dans les prochains mois à venir…</p>
+    </div>
+  </div>
+
+  <!-- Article 24 -->
+  <div class="card">
+    <a href="https://siecledigital.fr/2025/06/26/chatgpt-bat-de-nouveaux-records-dutilisation-en-france-selon-mediametrie/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/chatgptuse.webp" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">ChatGPT bat de nouveaux records d’utilisation en France</h5>
+      <p class="card-text">Si on sait d’ores et déjà que les outils d’intelligence artificielle comme ChatGPT, Meta AI, ou encore Google Gemini ne sont pas encore utilisés par l’ensemble du grand public, les derniers chiffres qui viennent d’être publiés à ce sujet pourraient être annonciateurs d’un futur bouleversement dans les usages…</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+<!-- Section  -->
+<div class="footer-section">
+  <h4>PORTFOLIO</h4>
+   <p><i class="fas fa-envelope"></i> <a href="mailto:zenkod@gmail.com">felicienlantoine.pro@gmail.com</a></p>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">RGPD</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Mentions légales</a></li>
+  </ul>
+</div>
+
+ <!-- Section Entreprise -->
+<div class="footer-section">
+  <h4>Entreprise</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">À propos</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Services</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Section Réseaux sociaux -->
+<div class="footer-section">
+  <h4>Réseaux sociaux</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+    </ul>
+  </div>
+</div>
+    <!-- Copyright -->
+    <div class="footer-bottom">
+        <div class="separator-line"></div> <!-- Ligne de séparation -->
+        <p>© 2025 LANTOINE Félicien. Tous droits réservés.</p>
+      </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS (nécessaire pour la navigation responsive) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Lien vers le fichier menu.js -->
+<script src="menu.js"></script>
+<script type="module" src="automatisation.js"></script>
+
+
+</body>
+</html>

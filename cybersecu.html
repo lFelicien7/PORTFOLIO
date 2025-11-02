@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersécurité sur les réseaux sociaux</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Lien vers le CDN de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"><link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS commun -->
+  <link rel="stylesheet" href="stylesIA.css"> <!-- Lien vers le fichier CSS externe -->
+</head>
+<body>
+
+  <!-- En-tête de la page -->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Mon Portfolio</a>
+
+        <!-- Bouton pour ouvrir le menu -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <!-- Bouton pour fermer le menu -->
+        <button class="navbar-toggler-close" type="button" aria-label="Close navigation" style="display: none;">
+          <i class="fas fa-times" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <!-- Accueil -->
+            <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+
+            <!-- Menu Études -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownEtudes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Études
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownEtudes">
+                <li><a class="dropdown-item" href="SIO.html">BTS SIO</a></li>
+                <li><a class="dropdown-item" href="#">Certifications</a></li>
+              </ul>
+            </li>
+
+            <!-- NOUVEL ONGLET combiné : Projets, Stages & Veille -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownPSV" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E5
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownPSV">
+                <!-- Veille technologique -->
+                <li><h6 class="dropdown-header">Veille technologique</h6></li>
+                <li><a class="dropdown-item" href="Veille_documentaire.html">Présentation</a></li>
+                <li><a class="dropdown-item" href="cybersecu.html">Cybersécurité sur les Réseaux Sociaux</a></li>
+                <li><a class="dropdown-item" href="intelligence_artificielle.html">Intelligence Artificielle</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Stages professionnels -->
+                <li><h6 class="dropdown-header">Stages professionnels</h6></li>
+                <li><a class="dropdown-item" href="BTS_SIO.html">BTS SIO - 1ère Année</a></li>
+                <li><a class="dropdown-item" href="#">BTS SIO - 2ème Année</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Projets d'AP (E6) -->
+                <li><h6 class="dropdown-header">EPREUVE E6</h6></li>
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+            </li>
+
+            <!-- Menu déroulant EPREUVE E6 -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownStage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E6
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownStage">
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+          </li>
+          
+            <!-- Lien vers la page "Guide de bonnes conduites" -->
+            <li class="nav-item"><a class="nav-link" href="guide_de_bonnes_conduites.html">Guide de bonnes conduites</a></li>
+          </ul><!-- fermeture de la liste -->
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Fil d'Ariane -->
+  <div class="breadcrumb-container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="Veille_documentaire.html">Veille technologique</a></li>
+        <li class="breadcrumb-item"><a href="cybersecu.html">Cybersécurité sur les réseaux sociaux</a></li>
+      </ol>
+    </nav>
+  </div>
+
+<!-- Titre principal -->
+<div class="container mt-5 d-flex align-items-center justify-content-between">
+  <h1 class="text-md-start text-center mb-0">Cybersécurité sur les réseaux</h1>
+  <button id="add-cyber" class="btn-add" type="button" aria-label="Ajouter un article">
+    <i class="fas fa-plus"></i>
+  </button>
+</div>
+
+<!-- Espacement optionnel -->
+<div class="spacer2"></div>
+
+<!-- ✅ Une seule grille qui contient TOUT (dynamique + statique) -->
+<div class="articles-grid container">
+  <!-- Les articles ajoutés par JS seront prépend ici automatiquement -->
+
+  <!-- Article 1 -->
+  <div class="card">
+    <a href="https://www.usine-digitale.fr/article/face-a-washington-tiktok-joue-sa-survie-aux-etats-unis.N2218536?utm_source=pocket_shared" target="_blank">
+      <img src="images/tiktok.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">La sécurité nationale américaine contre TikTok</h5>
+      <p class="card-text">Ce lundi 16 septembre, c’est le début d’un parcours judiciaire qui vient de commencer pour l’interdiction de TikTok aux Etats-Unis...</p>
+    </div>
+  </div>
+
+  <!-- Article 2 -->
+  <div class="card">
+    <a href="https://www.usine-digitale.fr/article/pour-avoir-stocke-des-mots-de-passe-en-clair-meta-ecope-d-une-amende-de-91-millions-d-euros.N2219533?utm_source=pocket_shared" target="_blank">
+      <img src="images/meta.png" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Violation du RGPD, Meta écoppe d'une amende</h5>
+      <p class="card-text">Meta Platforms Ireland a été reconnue coupable d’avoir violé le RGPD. Elle a ainsi écopé d’une amende de 91 millions d’euros...</p>
+    </div>
+  </div>
+
+  <!-- Article 3 -->
+  <div class="card">
+    <a href="https://www.usine-digitale.fr/article/cybersecurite-free-victime-d-une-fuite-de-donnees-100-000-iban-deja-exposes.N2221459" target="_blank">
+      <img src="images/free.png" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Free victime d’une fuite de données</h5>
+      <p class="card-text">Free confirme avoir été victime d’une cyberattaque, entraînant un accès non autorisé à des données personnelles...</p>
+    </div>
+  </div>
+
+  <!-- Article 4 -->
+  <div class="card">
+    <a href="https://www.usine-digitale.fr/article/cybersecurite-schneider-electric-victime-d-une-nouvelle-fuite-de-donnees.N2221763" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/schneider-electric.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Schneider Electric, fuite de données</h5>
+      <p class="card-text">Au début de l’année, le géant français des équipements électriques a confirmé qu’une de ses plateformes de développement avait été piratée.</p>
+    </div>
+  </div>
+
+  <!-- Article 5 -->
+  <div class="card">
+    <a href="https://www.lemondeinformatique.fr/actualites/lire-les-missions-locales-visees-par-une-cyberattaque-95159.html" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/missionlocale.png" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Les missions locales visées par une cyberattaque</h5>
+      <p class="card-text">Accompagnant les jeunes de 16 à 25 ans dans leur insertion professionnelle partout en France, les missions locales ont été ciblées par une attaque informatique ayant débouché sur du vol de données personnelles.</p>
+    </div>
+  </div>
+
+  <!-- Article 6 -->
+  <div class="card">
+    <a href="https://www.usine-digitale.fr/article/une-faille-de-securite-expose-les-donnees-personnelles-de-800-000-automobilistes.N2224809" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/voiture.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Une faille expose les données de 800 000 automobilistes</h5>
+      <p class="card-text">L’incident s’est produit à la suite d’une erreur de configuration dans les systèmes de Cariad, la division logicielle du groupe Volkswagen. Des données de géolocalisation très précises étaient accessibles depuis une instance cloud.</p>
+    </div>
+  </div>
+
+  <!-- Article 7 -->
+  <div class="card">
+    <a href="https://www.actuia.com/actualite/securite-nationale-ladministration-biden-publie-un-memorandum-historique-pour-encadrer-lia/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/tiktok2.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">La Cour suprême confirme l’interdiction de TikTok</h5>
+      <p class="card-text">Le recours de TikTok contre la loi l’obligeant à être cédé par sa maison mère ByteDance à une entreprise non chinoise a été rejeté par la Cour suprême. Ainsi, à compter du dimanche 19 janvier, l’application aux Etats-Unis sera interdite.</p>
+    </div>
+  </div>
+
+  <!-- Article 8 -->
+  <div class="card">
+    <a href="https://www.lemondeinformatique.fr/actualites/lire-ia-et-cybersecurite-au-menu-des-futurs-travaux-de-la-cnil-95818.html" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/cnil.jpg" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">IA et cybersécurité au menu des futurs travaux de la Cnil</h5>
+      <p class="card-text">Dans un monde où le numérique prend une place de plus en plus importante, la Cnil révèle son plan stratégique pour 2025-2028. Il identifie plusieurs priorités : l’IA, la cybersécurité, l’identité numérique, sans oublier la protection des mineurs.</p>
+    </div>
+  </div>
+
+  <!-- Article 9 -->
+  <div class="card">
+    <a href="https://www.usine-digitale.fr/article/comment-github-a-aide-carlsberg-a-ameliorer-ses-pratiques-de-developpement-et-sa-securite.N2226050" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/carlsberg.png" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Carlsberg et GitHub lance une collaboration</h5>
+      <p class="card-text">Face à la transformation numérique mondiale et à la nécessité de moderniser ses pratiques de développement, le brasseur danois Carlsberg a fait appel à GitHub, la célèbre plateforme de collaboration pour développeurs.</p>
+    </div>
+  </div>
+
+  <!-- Article 10 -->
+  <div class="card">
+    <a href="https://www.lemondeinformatique.fr/actualites/lire-une-faille-critique-empoisonne-llama-de-meta-95889.html" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/llama.PNG" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Une faille critique expose LLaMA de Meta à des attaques</h5>
+      <p class="card-text">Une vulnérabilité a été découverte dans LLaMA, le modèle d’intelligence artificielle développé par Meta. Cette faille pourrait permettre à des acteurs malveillants de manipuler ou compromettre les systèmes exploitant ce modèle.</p>
+    </div>
+  </div>
+
+  <!-- Article 11 -->
+  <div class="card">
+    <a href="https://www.lemondeinformatique.fr/actualites/lire-intelbroker-revendique-un-second-piratage-de-hpe-95904.html" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/hpe.jpg" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">HPE de nouveau ciblé : IntelBroker revendique un second piratage</h5>
+      <p class="card-text">Le cybercriminel IntelBroker a annoncé avoir mené une nouvelle attaque contre Hewlett Packard Enterprise (HPE). Cette intrusion aurait permis à l’attaquant d’accéder à des données sensibles de l’entreprise</p>
+    </div>
+  </div>
+
+  <!-- Article 12 -->
+  <div class="card">
+    <a href="https://securite.developpez.com/actu/369824/Les-attaques-par-ransomware-augmentent-de-30-pourcent-tirees-par-le-phishing-alimente-par-l-IA-et-les-offres-de-ransomware-en-tant-que-service-et-les-campagnes-de-phishing-generees-par-l-IA-ont-gagne-en-efficacite/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/ransomware.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Les attaques par ransomware en hausse avec l’IA et le phishing</h5>
+      <p class="card-text">Les attaques par ransomware ont enregistré une augmentation de 30 %, principalement en raison de l’essor du phishing automatisé par intelligence artificielle et de la popularisation du ransomware-as-a-service (RaaS).</p>
+    </div>
+  </div>
+
+  <!-- Article 13 -->
+  <div class="card">
+    <a href="https://www.lemondeinformatique.fr/actualites/lire-l-anssi-degaine-son-plan-strategique-2025-2027-96246.html" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/anssi.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">L'ANSSI dégaine son plan stratégique 2025-2027</h5>
+      <p class="card-text">Face à une cyber-menace affectant dorénavant tous les pans de l'économie et de la société française, l'Agence nationale de la sécurité de systèmes d'information répond à la situation en synthétisant un plan stratégique</p>
+    </div>
+  </div>
+
+  <!-- Article 14 -->
+  <div class="card">
+    <a href="https://www.usine-digitale.fr/article/cybersecurite-adidas-alerte-certains-clients-sur-la-fuite-de-leurs-donnees.N2232600" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/adidas.PNG" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Adidas alerte certains clients sur la fuite de leurs données</h5>
+      <p class="card-text">Le fabricant allemand d'articles de sport a déclaré qu'un “tiers non autorisé” avait obtenu certaines données de personnes ayant contacté son service client. Elle assure que les coordonnées bancaires et mots de passe ne sont pas concernés.</p>
+    </div>
+  </div>
+
+  <!-- Article 15 -->
+  <div class="card">
+    <a href="https://www.lemondeinformatique.fr/actualites/lire-les-menaces-de-securite-post-quantique-encore-negligees-en-france-96981.html" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/secu-post-quantique.png" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Les menaces de sécurité post-quantique, négligées en France</h5>
+      <p class="card-text">Une enquête menée par l'Anssi fait ressortir que de nombreuses entreprises françaises n'ont pas pris la mesure des risques liés au chiffrement post-quantique, des moyens financiers et humains expliquent en partie cette situation.</p>
+    </div>
+  </div>
+
+  <!-- Article 16 -->
+  <div class="card">
+    <a href="https://www.usine-digitale.fr/article/la-france-devoile-sa-strategie-2025-pour-lutter-contre-la-cybercriminalite.N2233089" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/ministere-interieur.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">La stratégie française pour lutter contre la cybercriminalité</h5>
+      <p class="card-text">Le ministère de l'Intérieur vient de publier sa stratégie. Cette feuille de route vise à renforcer la détection des menaces, améliorer la coordination entre unités spécialisées et promouvoir une coopération internationale renforcée. </p>
+    </div>
+  </div>
+
+  <!-- Article 17 -->
+  <div class="card">
+    <a href="https://programmation.developpez.com/actu/373119/Apple-migre-son-service-de-surveillance-des-mots-de-passe-de-Java-vers-Swift-et-obtient-une-augmentation-de-40-pourcent-des-performances-avec-une-reduction-de-85-pourcent-du-nombre-de-lignes-de-code/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/apple.jpg" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Apple migre son service de surveillance des mots de passe de Java vers Swift</h5>
+      <p class="card-text">Apple a annoncé avoir migré avec son service de surveillance des mots de passe de Java à Swift. L'équipe responsable a ajouté que cette migration a permis une augmentation de débit de 40 % et une réduction de 50 % de l'utilisation de la capacité de Kubernetes.</p>
+    </div>
+  </div>
+
+  <!-- Article 18 -->
+  <div class="card">
+    <a href="https://www.lemondeinformatique.fr/actualites/lire-une-faille-dans-le-serveur-mcp-d-asana-expose-des-donnees-97201.html" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/asama.png" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Une faille dans le serveur MCP d'Asana expose des données</h5>
+      <p class="card-text">Des chercheurs ont découvert une faille dans le serveur MCP d'Asana qui peut entraîner une fuite de données. Une affaire qui montre que le protocole dans le domaine de l'IA est toujours en développement.</p>
+    </div>
+  </div>
+
+  <!-- Article 19 -->
+  <div class="card">
+    <a href="https://securite.developpez.com/actu/373150/Les-escrocs-support-technique-ont-mis-au-point-une-methode-pour-injecter-leurs-faux-numeros-de-telephone-dans-les-pages-web-lorsqu-une-victime-visite-les-sites-officiels-d-Apple-Netflix-PayPal-et-autres/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/malwarebytes.jpg" class="card-img-top" alt="Image Article 1">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Des escrocs qui injectent leurs faux numéros de téléphone dans les pages web</h5>
+      <p class="card-text">Les escrocs spécialisés dans le support technique ont mis au point une méthode pour injecter leurs faux numéros de téléphone dans les pages web lorsque le navigateur web d'une victime visite les sites officiels d'Apple, PayPal, Netflix et d'autres entreprises.</p>
+    </div>
+  </div>
+
+  <!-- Article 20 -->
+  <div class="card">
+    <a href="https://securite.developpez.com/actu/373187/Un-agregat-de-donnees-de-16-milliards-d-identifiants-de-connexion-provenant-de-fuites-anterieures-a-ete-divulgue-en-ligne-la-CNIL-confirme-qu-il-n-y-a-pas-de-nouvelle-breche-mais-alerte-sur-les-risques/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/agregat.jpg" class="card-img-top" alt="Image Article 2">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Un agrégat de données de 16 milliards d'identifiants a été divulgué en ligne</h5>
+      <p class="card-text">Cette base de données énorme a suscité un emballement médiatique, certaines sources affirmant qu'elle donne aux criminels un « accès sans précédent » aux comptes des utilisateurs d'une série de plateformes populaire, notamment Google, Facebook et Apple.</p>
+    </div>
+  </div>
+
+  <!-- Article 21 -->
+  <div class="card">
+    <a href="https://securite.developpez.com/actu/373198/Cloudflare-bloque-la-plus-vaste-cyberattaque-jamais-enregistree-37-4-Terabits-en-45-secondes-deverses-sur-une-IP-unique-l-equivalent-de-pres-de-10-000-films-HD-projetes-simultanement/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/cloudfare.avif" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Cloudflare bloque la plus vaste cyberattaque jamais enregistrée</h5>
+      <p class="card-text">En juin 2025, Cloudflare, acteur majeur de la cybersécurité, a annoncé avoir bloqué une attaque par déni de service distribué (DDoS) d’une intensité inédite : 37,4 térabits de données déversées en l’espace de seulement 45 secondes.</p>
+    </div>
+  </div>
+
+  <!-- Article 22 -->
+  <div class="card">
+    <a href="https://linux.developpez.com/actu/373197/De-nouvelles-failles-critiques-dans-Linux-permettent-aux-pirates-d-acceder-aux-droits-root-via-des-vulnerabilites-PAM-et-udisks-qui-affectent-un-large-eventail-de-systemes-Linux-selon-un-rapport-de-Qualys/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/qualys.png" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">De nouvelles failles critiques dans Linux ont été découvertes</h5>
+      <p class="card-text">De nouvelles failles critiques dans Linux permettent aux pirates d'accéder aux droits root via des vulnérabilités PAM et udisks qui affectent un large éventail de systèmes Linux, selon un rapport de Qualys</p>
+    </div>
+  </div>
+
+  <!-- Article 23 -->
+  <div class="card">
+    <a href="https://securite.developpez.com/actu/373218/La-Chambre-des-representants-des-Etats-Unis-a-officiellement-interdit-l-utilisation-de-WhatsApp-sur-tous-les-appareils-geres-par-le-gouvernement-et-utilises-par-les-membres-du-personnel-du-Congres/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/whatsapp.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">WhatsApp interdit sur tous les appareils gérés par le gouvernement</h5>
+      <p class="card-text">La Chambre des représentants des États-Unis a interdit l'utilisation de WhatsApp sur les appareils gouvernementaux. Cette décision est due à des problèmes de cybersécurité. L'Office of Cybersecurity considère WhatsApp comme une application à haut risque.</p>
+    </div>
+  </div>
+
+  <!-- Article 24 -->
+  <div class="card">
+    <a href="https://windows.developpez.com/actu/373212/Windows-11-Microsoft-confirme-la-suppression-automatique-des-points-de-restauration-apres-60-jours-une-marge-de-securite-plus-ou-moins-elevee-qu-avant/" target="_blank"> <!-- Lien cliquable vers le site de l'article -->
+      <img src="images/windows11.jpg" class="card-img-top" alt="Image Article 3">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">Microsoft confirme la suppression automatique des points de restauration après 60 jours</h5>
+      <p class="card-text">Jusqu’à présent, la durée de conservation des points de restauration était floue, voire variable. Microsoft a officiellement modifié cet aspect essentiel de la gestion de la restauration système : les points de restauration sont désormais expirés après 60 jours.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+<!-- Section  -->
+<div class="footer-section">
+  <h4>PORTFOLIO</h4>
+   <p><i class="fas fa-envelope"></i> <a href="mailto:zenkod@gmail.com">felicienlantoine.pro@gmail.com</a></p>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">RGPD</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Mentions légales</a></li>
+  </ul>
+</div>
+
+ <!-- Section Entreprise -->
+<div class="footer-section">
+  <h4>Entreprise</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">À propos</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Services</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Section Réseaux sociaux -->
+<div class="footer-section">
+  <h4>Réseaux sociaux</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+    </ul>
+  </div>
+</div>
+    <!-- Copyright -->
+    <div class="footer-bottom">
+        <div class="separator-line"></div> <!-- Ligne de séparation -->
+        <p>© 2025 LANTOINE Félicien. Tous droits réservés.</p>
+      </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS (nécessaire pour la navigation responsive) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Lien vers le fichier menu.js -->
+<script src="menu.js"></script>
+<script type="module" src="automatisation-cyber.js"></script>
+
+</body>
+</html>

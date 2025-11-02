@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide de Bonnes Conduites</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Lien vers le CDN de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+  <link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS commun -->
+  <link rel="stylesheet" href="stylesVC.css"> <!-- Lien vers le fichier CSS externe -->
+</head>
+<body>
+
+  <!-- En-tête de la page -->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Mon Portfolio</a>
+
+        <!-- Bouton pour ouvrir le menu -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <!-- Bouton pour fermer le menu -->
+        <button class="navbar-toggler-close" type="button" aria-label="Close navigation" style="display: none;">
+          <i class="fas fa-times" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <!-- Accueil -->
+            <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+
+            <!-- Menu Études -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownEtudes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Études
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownEtudes">
+                <li><a class="dropdown-item" href="SIO.html">BTS SIO</a></li>
+                <li><a class="dropdown-item" href="#">Certifications</a></li>
+              </ul>
+            </li>
+
+            <!-- NOUVEL ONGLET combiné : Projets, Stages & Veille -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownPSV" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E5
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownPSV">
+                <!-- Veille technologique -->
+                <li><h6 class="dropdown-header">Veille technologique</h6></li>
+                <li><a class="dropdown-item" href="Veille_documentaire.html">Présentation</a></li>
+                <li><a class="dropdown-item" href="cybersecu.html">Cybersécurité sur les Réseaux Sociaux</a></li>
+                <li><a class="dropdown-item" href="intelligence_artificielle.html">Intelligence Artificielle</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Stages professionnels -->
+                <li><h6 class="dropdown-header">Stages professionnels</h6></li>
+                <li><a class="dropdown-item" href="BTS_SIO.html">BTS SIO - 1ère Année</a></li>
+                <li><a class="dropdown-item" href="#">BTS SIO - 2ème Année</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Projets d'AP (E6) -->
+                <li><h6 class="dropdown-header">EPREUVE E6</h6></li>
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+            </li>
+
+            <!-- Menu déroulant EPREUVE E6 -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownStage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E6
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownStage">
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+          </li>
+          
+            <!-- Lien vers la page "Guide de bonnes conduites" -->
+            <li class="nav-item"><a class="nav-link" href="guide_de_bonnes_conduites.html">Guide de bonnes conduites</a></li>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Fil d'Ariane -->
+<div class="breadcrumb-container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+      <li class="breadcrumb-item"><a href="mentions_legales.html">Guide de bonnes conduites</a></li>
+    </ol>
+  </nav>
+</div>
+
+<!-- Contenu de la page -->
+<main class="container my-5">
+  <div class="container-box">
+    <!-- Titre remplacé par les Mentions Légales -->
+    <h2>Mentions légales</h2>
+    
+    <!-- Section des Mentions Légales -->
+    <section class="mentions-legales">
+      <h3>1. Informations légales</h3>
+      <p>Le présent site [Nom de ton site] (ci-après « le Site ») est édité par :</p>
+      <p><strong>Nom du responsable de la publication :</strong> [Ton nom complet]</p>
+      <p><strong>Statut :</strong> [Exemple : Étudiant(e), freelance, etc.]</p>
+      <p><strong>Adresse :</strong> [Ton adresse]</p>
+      <p><strong>Téléphone :</strong> [Ton numéro de téléphone]</p>
+      <p><strong>Adresse email :</strong> [Ton adresse email]</p>
+      <p><strong>Numéro SIRET :</strong> [Numéro SIRET] (si applicable)</p>
+      <p><strong>Hébergeur :</strong> [Nom de l'hébergeur] - [Adresse de l'hébergeur] - [Numéro de téléphone de l'hébergeur]</p>
+      <p><strong>Directeur de la publication :</strong> [Ton nom]</p>
+
+      <h3>2. Propriété intellectuelle</h3>
+      <p>L'ensemble du contenu du site, incluant les textes, images, graphismes, logos, vidéos, icônes, sons, ainsi que leur mise en forme, sont la propriété exclusive de [Ton nom ou le nom de ta société], à l'exception des marques, logos ou contenus appartenant à d'autres sociétés partenaires ou auteurs.</p>
+      <p>Toute reproduction, distribution, modification, retransmission ou publication de ces éléments, en tout ou en partie, est interdite sans l'accord préalable et écrit de l'éditeur.</p>
+
+      <h3>3. Données personnelles</h3>
+      <p>Conformément à la loi Informatique et Libertés du 6 janvier 1978, modifiée par la loi n° 2018-493 du 20 juin 2018, relative à la protection des données personnelles (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression, d'opposition et de portabilité des données vous concernant.</p>
+      <p>Pour exercer ces droits, vous pouvez nous contacter à l'adresse suivante : [Ton adresse email].</p>
+      <p>Les informations personnelles collectées sur ce site sont destinées à un usage interne pour la gestion des contacts, des demandes ou des services proposés par le site. Elles ne sont pas revendues ni partagées avec des tiers.</p>
+
+      <h3>4. Cookies</h3>
+      <p>Le site utilise des cookies pour améliorer l'expérience utilisateur. Ces cookies peuvent être utilisés pour analyser l’utilisation du site, se souvenir de vos préférences ou vous proposer du contenu personnalisé.</p>
+      <p>En utilisant ce site, vous acceptez l’utilisation de ces cookies. Vous pouvez modifier vos paramètres de cookies à tout moment via les paramètres de votre navigateur.</p>
+
+      <h3>5. Responsabilité</h3>
+      <p>Le site [Nom de ton site] s'efforce de fournir des informations exactes et mises à jour. Cependant, il ne pourra être tenu responsable des erreurs, omissions ou des résultats obtenus par un mauvais usage des informations présentes sur le site.</p>
+      <p>Le site peut contenir des liens vers des sites externes. [Ton nom] ne peut être tenu responsable du contenu de ces sites ou des dommages résultant de leur consultation.</p>
+
+      <h3>6. Loi applicable et juridiction compétente</h3>
+      <p>Les présentes mentions légales sont régies par la loi française. En cas de litige, les tribunaux français seront compétents, sauf disposition légale contraire.</p>
+    </section>
+  </div>
+</main>
+
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+<!-- Section  -->
+<div class="footer-section">
+  <h4>PORTFOLIO</h4>
+   <p><i class="fas fa-envelope"></i> <a href="mailto:zenkod@gmail.com">felicienlantoine.pro@gmail.com</a></p>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">RGPD</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Mentions légales</a></li>
+  </ul>
+</div>
+
+ <!-- Section Entreprise -->
+<div class="footer-section">
+  <h4>Entreprise</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">À propos</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Services</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Section Réseaux sociaux -->
+<div class="footer-section">
+  <h4>Réseaux sociaux</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+    </ul>
+  </div>
+</div>
+    <!-- Copyright -->
+    <div class="footer-bottom">
+        <div class="separator-line"></div> <!-- Ligne de séparation -->
+        <p>© 2025 LANTOINE Félicien. Tous droits réservés.</p>
+      </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS (nécessaire pour la navigation responsive) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Lien vers le fichier menu.js -->
+<script src="menu.js"></script>
+
+</body>
+</html>

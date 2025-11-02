@@ -1,0 +1,189 @@
+/* ========================================================================
+   SECTION INTRO (Veille technologique - Adaptée avec la même structure)
+   ======================================================================== */
+.intro-section {
+  background-color: #ffffff;  /* Fond blanc */
+  padding: 20px;
+  margin-top: 40px;  /* Espacement supérieur */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center; /* Aligne le texte au centre verticalement */
+  justify-content: space-between;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.intro-section .intro-content {
+  flex: 1;
+  text-align: left;
+  margin-left: 10px;  /* Réduit la marge à gauche du texte */
+  margin-right: 20px;  /* Marge entre le texte et l'image */
+}
+
+.intro-section h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.intro-section p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+  text-align: left;
+}
+
+/* ========================================================================
+   SECTION "Cybersécurité sur les Réseaux Sociaux" (Image à gauche)
+   ======================================================================== */
+.topic-section-cyber {
+  background-color: #ffffff;  /* Fond blanc */
+  padding: 20px;
+  margin-top: 40px;  /* Espacement supérieur */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-start; /* Aligne l'image et le texte en haut */
+  justify-content: space-between;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 30px;  /* Assure que le texte a la même marge à gauche que les autres sections */
+  padding-right: 30px; /* Assure que le texte a la même marge à droite que les autres sections */
+}
+
+.topic-section-cyber .text {
+  flex: 1;
+  text-align: left;
+  margin-left: 20px;  /* Réduit la marge à gauche du texte */
+  margin-right: 20px;  /* Marge entre le texte et l'image */
+}
+
+.topic-section-cyber .text h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.topic-section-cyber .text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+.topic-section-cyber .image {
+  flex-shrink: 0;
+  width: 30%; /* Taille de l'image */
+  height: auto;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topic-section-cyber img {
+  width: 100%; /* L'image occupera toute la largeur de son conteneur */
+  height: auto;
+  border-radius: 10px;
+}
+
+/* ========================================================================
+   SECTION "L'Intelligence Artificielle" (Image à droite)
+   ======================================================================== */
+.topic-section-ai {
+  background-color: #ffffff;  /* Fond blanc */
+  padding: 20px;
+  margin-top: 40px;  /* Espacement supérieur */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-start; /* Aligne l'image et le texte en haut */
+  justify-content: space-between;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 30px;  /* Assure que le texte a la même marge à gauche que les autres sections */
+  padding-right: 30px; /* Assure que le texte a la même marge à droite que les autres sections */
+}
+
+.topic-section-ai .text {
+  flex: 1;
+  text-align: left;
+  margin-left: 20px;  /* Marge entre le texte et l'image */
+}
+
+.topic-section-ai .text h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.topic-section-ai .text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+.topic-section-ai .image {
+  flex-shrink: 0;
+  width: 30%; /* Taille de l'image */
+  height: auto;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topic-section-ai img {
+  width: 100%; /* L'image occupera toute la largeur de son conteneur */
+  height: auto;
+  border-radius: 10px;
+}
+
+/* ========================================================================
+   RESPONSIVE STYLES (Adaptations pour petits écrans)
+   ======================================================================== */
+@media (max-width: 768px) {
+  .intro-section {
+    flex-direction: column;  /* Empile les éléments sur petits écrans */
+    text-align: center;  /* Centrer le texte */
+  }
+
+  .intro-section .intro-content {
+    margin-right: 0; /* Supprimer la marge à droite du texte */
+    margin-left: 0; /* Supprimer la marge à gauche du texte */
+  }
+
+  /* Modifications spécifiques pour les petits écrans */
+  .intro-section h2 {
+    font-size: 1.5rem;  /* Taille du titre sur petits écrans */
+  }
+
+  .intro-section p {
+    font-size: 1rem;  /* Taille du texte sur petits écrans */
+  }
+
+  .topic-section-cyber,
+  .topic-section-ai {
+    flex-direction: column;  /* Empile les éléments sur petits écrans */
+    text-align: center;  /* Centre le texte */
+  }
+
+  .topic-section-cyber .image, 
+  .topic-section-ai .image {
+    margin: 20px 0; /* Espacement entre l'image et le texte */
+    width: 80%; /* Ajuste la taille de l'image */
+  }
+
+  .topic-section-cyber .text, 
+  .topic-section-ai .text {
+    margin-right: 0; /* Supprimer la marge à droite du texte */
+    margin-left: 0; /* Supprimer la marge à gauche du texte */
+  }
+}
