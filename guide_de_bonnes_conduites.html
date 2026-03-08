@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide de Bonnes Conduites</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Lien vers le CDN de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS commun -->
+  <link rel="stylesheet" href="stylesUpgrade.css"> <!-- Lien vers le fichier CSS externe -->
+</head>
+<body>
+
+  <!-- En-tête de la page -->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Mon Portfolio</a>
+
+        <!-- Bouton pour ouvrir le menu -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <!-- Bouton pour fermer le menu -->
+        <button class="navbar-toggler-close" type="button" aria-label="Close navigation" style="display: none;">
+          <i class="fas fa-times" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <!-- Accueil -->
+            <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+
+            <!-- Menu Études -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownEtudes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Études
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownEtudes">
+                <li><a class="dropdown-item" href="SIO.html">BTS SIO</a></li>
+                <li><a class="dropdown-item" href="#">Certifications</a></li>
+              </ul>
+            </li>
+
+            <!-- NOUVEL ONGLET combiné : Projets, Stages & Veille -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownPSV" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E5
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownPSV">
+                <!-- Veille technologique -->
+                <li><h6 class="dropdown-header">Veille technologique</h6></li>
+                <li><a class="dropdown-item" href="Veille_documentaire.html">Présentation</a></li>
+                <li><a class="dropdown-item" href="cybersecu.html">Cybersécurité sur les Réseaux Sociaux</a></li>
+                <li><a class="dropdown-item" href="intelligence_artificielle.html">Intelligence Artificielle</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Stages professionnels -->
+                <li><h6 class="dropdown-header">Stages professionnels</h6></li>
+                <li><a class="dropdown-item" href="Stage1ereBTS.html">BTS SIO - 1ère Année</a></li>
+                <li><a class="dropdown-item" href="Stage2emeBTS.html">BTS SIO - 2ème Année</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Projets d'AP (E6) -->
+                <li><h6 class="dropdown-header">EPREUVE E6</h6></li>
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+            </li>
+
+            <!-- Menu déroulant EPREUVE E6 -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownStage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E6
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownStage">
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+            </li>
+            
+            <!-- Lien vers la page "Guide de bonnes conduites" -->
+            <li class="nav-item"><a class="nav-link active" href="guide_de_bonnes_conduites.html">Guide de bonnes conduites</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Fil d'Ariane -->
+  <div class="breadcrumb-container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Guide de bonnes conduites</li>
+      </ol>
+    </nav>
+  </div>
+
+    <div class="spacer1"></div>
+
+<!-- Guide de Bonnes Conduites -->
+<section class="container stage-section">
+
+  <h3>Guide de Bonnes Conduites</h3>
+
+  <!-- Introduction -->
+  <div class="stage-card">
+    <p>
+      Ce site a pour objectif de proposer un espace sûr, inclusif et respectueux
+      pour tous les utilisateurs. Afin de garantir une expérience agréable
+      et professionnelle, chaque visiteur s’engage à respecter
+      les règles suivantes.
+    </p>
+  </div>
+
+  <div class="spacer2"></div>
+
+  <!-- Règle 1 -->
+  <div class="stage-card">
+    <h4>1. Respect et courtoisie</h4>
+    <ul>
+      <li>Adopter un langage respectueux et professionnel.</li>
+      <li>Éviter tout propos offensant, vulgaire ou haineux.</li>
+      <li>Ne pratiquer aucune forme de discrimination.</li>
+      <li>Ne pas harceler ou intimider d’autres utilisateurs.</li>
+    </ul>
+  </div>
+
+  <div class="spacer2"></div>
+
+  <!-- Règle 2 -->
+  <div class="stage-card">
+    <h4>2. Contenu approprié</h4>
+    <ul>
+      <li>Publier uniquement des contenus conformes aux valeurs de respect et de sécurité.</li>
+      <li>Ne pas promouvoir de discours haineux, violents ou illégaux.</li>
+      <li>Ne pas partager de contenus à caractère diffamatoire ou inapproprié.</li>
+    </ul>
+  </div>
+
+  <div class="spacer2"></div>
+
+  <!-- Règle 3 -->
+  <div class="stage-card">
+    <h4>3. Confidentialité et sécurité</h4>
+    <ul>
+      <li>Ne pas divulguer d’informations personnelles sensibles.</li>
+      <li>Respecter la vie privée des autres utilisateurs.</li>
+      <li>Ne pas tenter d’usurpation d’identité ou d’attaque du site.</li>
+    </ul>
+  </div>
+
+  <div class="spacer2"></div>
+
+  <!-- Règle 4 -->
+  <div class="stage-card">
+    <h4>4. Participation constructive</h4>
+    <ul>
+      <li>Contribuer de manière positive et constructive.</li>
+      <li>Éviter les attaques personnelles et les provocations.</li>
+      <li>Ne pas publier de spam ou de contenu hors sujet.</li>
+    </ul>
+  </div>
+
+  <div class="spacer2"></div>
+
+  <!-- Règle 5 -->
+  <div class="stage-card">
+    <h4>5. Utilisation responsable du site</h4>
+    <ul>
+      <li>Ne pas utiliser de scripts, bots ou automatisations abusives.</li>
+      <li>Signaler tout comportement contraire à ces règles.</li>
+      <li>Respecter les décisions des administrateurs.</li>
+    </ul>
+  </div>
+
+  <div class="spacer2"></div>
+
+  <!-- Sanctions -->
+  <div class="stage-card">
+    <h4>6. Sanctions</h4>
+    <p>
+      Toute violation de ce guide peut entraîner des mesures adaptées,
+      allant de l’avertissement à la suspension d’accès,
+      voire un signalement aux autorités compétentes en cas d’infraction grave.
+    </p>
+  </div>
+
+  <div class="spacer2"></div>
+
+  <!-- Modification -->
+  <div class="stage-card">
+    <h4>7. Modification du règlement</h4>
+    <p>
+      Ce guide peut être modifié à tout moment afin de garantir
+      un environnement sûr et conforme aux exigences légales.
+      Pour toute question, vous pouvez me contacter
+      via les informations disponibles sur le site.
+    </p>
+  </div>
+
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+<!-- Section  -->
+<div class="footer-section">
+  <h4>PORTFOLIO</h4>
+   <p><i class="fas fa-envelope"></i> <a href="mailto:zenkod@gmail.com">felicienlantoine.pro@gmail.com</a></p>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees">RGPD</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Mentions légales</a></li>
+  </ul>
+</div>
+
+ <!-- Section Entreprise -->
+<div class="footer-section">
+  <h4>Entreprise</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">À propos</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Services</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Section Réseaux sociaux -->
+<div class="footer-section">
+  <h4>Réseaux sociaux</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+    </ul>
+  </div>
+</div>
+    <!-- Copyright -->
+    <div class="footer-bottom">
+        <div class="separator-line"></div> <!-- Ligne de séparation -->
+        <p>© 2025 LANTOINE Félicien. Tous droits réservés.</p>
+      </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS (nécessaire pour la navigation responsive) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Lien vers le fichier menu.js -->
+<script src="menu.js"></script>
+
+</body>
+</html>

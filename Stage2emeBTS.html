@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage 2èmeAnnée BTS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Lien vers le CDN de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+  <link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS commun -->
+  <link rel="stylesheet" href="stylesUpgrade.css"> <!-- Lien vers le fichier CSS externe -->
+</head>
+<body>
+
+  <!-- En-tête de la page -->
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Mon Portfolio</a>
+
+        <!-- Bouton pour ouvrir le menu -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <!-- Bouton pour fermer le menu -->
+        <button class="navbar-toggler-close" type="button" aria-label="Close navigation" style="display: none;">
+          <i class="fas fa-times" style="font-size: 30px; color: white;"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <!-- Accueil -->
+            <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
+
+            <!-- Menu Études -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownEtudes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Études
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownEtudes">
+                <li><a class="dropdown-item" href="SIO.html">BTS SIO</a></li>
+                <li><a class="dropdown-item" href="#">Certifications</a></li>
+              </ul>
+            </li>
+
+            <!-- NOUVEL ONGLET combiné : Projets, Stages & Veille -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownPSV" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E5
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownPSV">
+                <!-- Veille technologique -->
+                <li><h6 class="dropdown-header">Veille technologique</h6></li>
+                <li><a class="dropdown-item" href="Veille_documentaire.html">Présentation</a></li>
+                <li><a class="dropdown-item" href="cybersecu.html">Cybersécurité sur les Réseaux Sociaux</a></li>
+                <li><a class="dropdown-item" href="intelligence_artificielle.html">Intelligence Artificielle</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Stages professionnels -->
+                <li><h6 class="dropdown-header">Stages professionnels</h6></li>
+                <li><a class="dropdown-item" href="Stage1ereBTS.html">BTS SIO - 1ère Année</a></li>
+                <li><a class="dropdown-item" href="Stage2emeBTS.html">BTS SIO - 2ème Année</a></li>
+
+                <li><hr class="dropdown-divider"></li>
+
+                <!-- Projets d'AP (E6) -->
+                <li><h6 class="dropdown-header">EPREUVE E6</h6></li>
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+            </li>
+
+            <!-- Menu déroulant EPREUVE E6 -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdownStage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                EPREUVE E6
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownStage">
+                <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
+                <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
+                <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
+                <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
+              </ul>
+          </li>
+          
+            <!-- Lien vers la page "Guide de bonnes conduites" -->
+            <li class="nav-item"><a class="nav-link" href="guide_de_bonnes_conduites.html">Guide de bonnes conduites</a></li>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+      <!-- Fil d'Ariane -->
+<div class="breadcrumb-container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+      <li class="breadcrumb-item"><a href="Stage2emeBTS.html">BTS SIO - 2ème Année</a></li>
+    </ol>
+  </nav>
+</div>
+  <body>
+
+  <div class="spacer1"></div>
+
+  <!-- Présentation de l'entreprise -->
+<section class="container stage-section">
+  <h3>Présentation de l’entreprise</h3>
+
+  <div class="stage-card card-with-image">
+    <div class="card-text">
+      <p>
+        <strong>AllNet France</strong> est une entreprise spécialisée dans
+        l’intégration de solutions informatiques, réseaux et télécoms
+        à destination des professionnels. Elle accompagne ses clients
+        dans la conception, le déploiement et la maintenance de leurs
+        infrastructures informatiques.
+      </p>
+
+      <p>
+        Son activité couvre plusieurs domaines :
+      </p>
+
+      <ul>
+        <li>Mise en place et administration de réseaux informatiques</li>
+        <li>Gestion de parc et suivi d’inventaire</li>
+        <li>Téléphonie IP et solutions de communication unifiée</li>
+        <li>Supervision et centralisation des logs</li>
+        <li>Maintenance et support technique</li>
+      </ul>
+
+      <p>
+        AllNet intervient auprès de différentes structures professionnelles
+        (PME, collectivités, entreprises locales) et propose des solutions
+        adaptées aux besoins spécifiques de chaque client.
+        Cette diversité m’a permis de découvrir des environnements techniques
+        variés et concrets.
+      </p>
+    </div>
+
+    <div class="card-image">
+      <img src="images/allnet_logo.png" alt="Logo AllNet France">
+    </div>
+  </div>
+</section>
+
+  <div class="spacer1"></div>
+
+<section class="container stage-section">
+  <h3>Contexte du stage</h3>
+
+  <div class="stage-card">
+    <p>
+      Ce stage s’inscrit dans le cadre de ma formation en BTS SIO option SISR.
+      Il avait pour objectif de me confronter à un environnement professionnel
+      réel et de participer au déploiement de solutions systèmes, réseaux et télécoms.
+    </p>
+  </div>
+</section>
+
+  <div class="spacer1"></div>
+
+<!-- Missions réalisées --> 
+<section class="container stage-section">
+  <h3>Missions réalisées</h3>
+
+  <!-- GNS3 -->
+  <div class="stage-card card-with-image">
+    <div class="card-text">
+      <h4>Création d’un laboratoire réseau avec GNS3</h4>
+      <p>
+        Mise en place d’un environnement de simulation réseau avec <strong>GNS3</strong>
+        afin de tester des configurations et des équipements avant déploiement réel.
+      </p>
+      <ul>
+        <li>Installation et configuration de GNS3</li>
+        <li>Création de topologies réseau virtuelles</li>
+        <li>Tests de connectivité et de routage</li>
+        <li>Validation des configurations avant mise en production</li>
+      </ul>
+
+     <!-- BOUTON EN DESSOUS DU TEXTE -->
+      <div class="project-links">
+       <a href="Documentations/GNS3-Documentation.pdf" target="_blank">
+          📄 Documentation GNS3
+       </a>
+      </div>
+    </div>
+
+    <div class="card-image">
+      <img src="images/gns3.jpg" alt="Logo GNS3">
+    </div>
+  </div>
+  
+
+  <div class="spacer2"></div>
+  
+  <!-- GLPI -->
+  <div class="stage-card card-with-image">
+    <div class="card-text">
+      <h4>Mise en place d’un outil de gestion de parc avec GLPI</h4>
+      <p>
+        Installation et configuration de <strong>GLPI</strong> afin d’assurer la gestion,
+        le suivi et la structuration de l’inventaire du parc informatique.
+      </p>
+      <ul>
+        <li>Installation et configuration de GLPI</li>
+        <li>Organisation des catégories d’équipements</li>
+        <li>Gestion des utilisateurs et des droits</li>
+        <li>Suivi du matériel et des prêts</li>
+        <li>Structuration et normalisation de l’inventaire</li>
+      </ul>
+           <!-- BOUTON EN DESSOUS DU TEXTE -->
+      <div class="project-links">
+       <a href="Documentations/GNS3-Documentation.pdf" target="_blank">
+          📄 Documentation GLPI
+       </a>
+      </div>
+    </div>
+
+    <div class="card-image">
+      <img src="images/glpi.png" alt="Logo GLPI">
+    </div>
+  </div>
+
+  <div class="spacer2"></div>
+
+<!-- SERVEUR DE LOG -->
+<div class="stage-card card-with-image">
+  <div class="card-text">
+    <h4>Mise en place d’un serveur de logs et de supervision réseau (ELK Stack)</h4>
+    <p>
+      J’ai conçu et déployé un serveur de centralisation des logs et de supervision
+      basé sur la stack <strong>ELK</strong> (Elasticsearch, Logstash, Kibana, Packetbeat),
+      permettant la collecte, l’analyse et la visualisation des événements réseau.
+    </p>
+    <ul>
+      <li>Installation d’Elasticsearch (stockage et indexation des logs)</li>
+      <li>Configuration de Logstash pour la réception des logs Syslog (UDP 5514)</li>
+      <li>Analyse du trafic réseau via Packetbeat</li>
+      <li>Création de dashboards de supervision dans Kibana</li>
+      <li>Mise en place d’une authentification sécurisée (TLS, gestion des rôles)</li>
+    </ul>
+    <p>
+      Cette solution permet la centralisation multi-VLAN, la détection d’anomalies
+      et la mise en place d’un mini SOC de supervision réseau.
+    </p>
+  <!-- BOUTON EN DESSOUS DU TEXTE -->
+    <div class="project-links">
+      <a href="Documentations/GNS3-Documentation.pdf" target="_blank">
+        📄 Documentation ELK Stack
+      </a>
+    </div>
+  </div>
+
+  <div class="card-image">
+    <img src="images/elk-stack.png" alt="Logo ELK Stack">
+  </div>
+</div>
+
+<div class="spacer2"></div>
+
+<!-- PBX YEASTAR -->
+<div class="stage-card card-with-image">
+  <div class="card-text">
+    <h4>Installation et configuration d’un PBX Yeastar P560</h4>
+    <p>
+      J’ai participé à l’installation et à la configuration d’un <strong>PBX Yeastar P560</strong>
+      afin de mettre en place une infrastructure de téléphonie IP avec gestion des files
+      d’attente et tests de performance.
+    </p>
+
+    <ul>
+      <li>Création d’un trunk IP (mode Peer Trunk)</li>
+      <li>Configuration d’une file d’attente (ex : 300)</li>
+      <li>Mise en place d’une route entrante vers la file</li>
+      <li>Ajout d’agents statiques</li>
+      <li>Tests d’appels via SIPp (sans REGISTER)</li>
+      <li>Test de charge jusqu’à 30 appels simultanés (limite licence)</li>
+    </ul>
+
+    <p>
+      Des tests de performance ont été réalisés avec <strong>SIPp</strong> afin de simuler
+      des appels entrants massifs vers plusieurs files d’attente, permettant de
+      valider le comportement du PBX en conditions réelles (centre d’appel).
+    </p>
+      <!-- BOUTON EN DESSOUS DU TEXTE -->
+    <div class="project-links">
+      <a href="Documentations/GNS3-Documentation.pdf" target="_blank">
+        📄 Documentation Yeastar
+      </a>
+    </div>
+  </div>
+
+  <div class="card-image stacked-images">
+    <img src="images/yeastar-logo.png" alt="Logo Yeastar">
+    <img src="images/yeastar-p560.jpg" alt="PBX Yeastar P560">
+  </div>
+</div>
+
+<div class="spacer2"></div>
+
+<!-- CERTIFICATION YEASTAR -->
+<div class="stage-card card-with-image">
+  <div class="card-text">
+    <h4>Formation et certification Yeastar – YSCT</h4>
+
+    <p>
+      Dans le cadre de la mise en place du PBX Yeastar P560, j’ai suivi une
+      formation officielle Yeastar me permettant d’approfondir mes compétences
+      en téléphonie IP et en configuration avancée de solutions PBX.
+    </p>
+
+    <ul>
+      <li>Architecture et fonctionnement d’un PBX Yeastar</li>
+      <li>Configuration des trunks SIP (mode Peer)</li>
+      <li>Gestion des extensions et files d’attente</li>
+      <li>Routage des appels entrants et sortants</li>
+      <li>Analyse des performances et gestion des limites de licence</li>
+      <li>Bonnes pratiques de déploiement en environnement professionnel</li>
+    </ul>
+
+    <p>
+      À l’issue de cette formation, j’ai passé et obtenu la certification
+      <strong>YSCT (Yeastar Certified Technician)</strong>,
+      attestant de ma capacité à installer, configurer et maintenir
+      des solutions Yeastar en environnement entreprise.
+    </p>
+
+  <!-- BOUTON EN DESSOUS DU TEXTE -->
+    <div class="project-links">
+      <a href="Certifications/YSCT-PSE_FL.png" target="_blank">
+        📄 Certification Yeastar
+      </a>
+    </div>
+  </div>
+
+  <!-- IMAGES EMPILÉES -->
+  <div class="card-image stacked-images">
+    <!-- Badge logo -->
+    <img src="images/yeastar-certified.jpg" 
+         alt="Badge Yeastar Certified">
+
+    <!-- Certificat complet -->
+    <img src="Certifications/YSCT-PSE_FL.png" 
+         alt="Certificat Yeastar YSCT">
+  </div>
+</div>
+
+</section>
+
+  <div class="spacer1"></div>
+
+ <!-- Compétences -->
+<section class="container stage-section">
+  <h3>Compétences développées</h3>
+
+  <div class="stage-card">
+    <h4>Compétences techniques</h4>
+    <ul>
+      <li>Déploiement et configuration d’un outil de gestion de parc (GLPI)</li>
+      <li>Structuration et normalisation d’un inventaire informatique</li>
+      <li>Mise en place d’un serveur de centralisation de logs (ELK Stack)</li>
+      <li>Collecte et analyse de logs via Syslog et Packetbeat</li>
+      <li>Création de dashboards de supervision avec Kibana</li>
+      <li>Installation et configuration d’un PBX Yeastar P560</li>
+      <li>Configuration de trunks SIP et files d’attente</li>
+      <li>Tests de charge VoIP avec SIPp</li>
+      <li>Conception d’un laboratoire réseau virtualisé avec GNS3</li>
+      <li>Tests de connectivité et validation de configurations réseau</li>
+      <li>Administration Linux en environnement serveur</li>
+    </ul>
+  </div>
+
+  <div class="spacer2"></div>
+
+  <div class="stage-card">
+    <h4>Compétences professionnelles</h4>
+    <ul>
+      <li>Gestion de projet technique en autonomie</li>
+      <li>Analyse des besoins et mise en place de solutions adaptées</li>
+      <li>Rédaction de documentation technique</li>
+      <li>Capacité d’analyse et résolution de problèmes</li>
+      <li>Rigueur dans la configuration et la sécurisation des services</li>
+      <li>Respect des bonnes pratiques en environnement professionnel</li>
+    </ul>
+  </div>
+
+</section>
+
+
+  <div class="spacer1"></div>
+
+  <!-- Bilan -->
+<section class="container stage-section">
+  <h3>Bilan du stage</h3>
+
+  <div class="stage-card">
+    <p>
+      Ce stage de deuxième année m’a permis d’apprendre de nombreuses choses,
+      tant sur le plan technique que professionnel. J’ai pu développer mes
+      compétences en administration systèmes et réseaux à travers des projets
+      concrets tels que la mise en place d’un outil de gestion de parc,
+      d’un serveur de supervision et d’une infrastructure de téléphonie IP.
+    </p>
+
+    <p>
+      J’ai notamment approfondi mes connaissances dans le domaine de la
+      téléphonie sur IP grâce à l’installation et à la configuration d’un
+      PBX Yeastar, ainsi qu’à l’obtention de la certification YSCT.
+      Cette expérience m’a permis de mieux comprendre le fonctionnement
+      des infrastructures VoIP en environnement professionnel.
+    </p>
+
+    <p>
+      Ce stage m’a également permis de gagner en autonomie, en rigueur
+      et en capacité d’analyse face à des problématiques techniques réelles.
+      Il constitue une expérience déterminante dans ma formation et me sera
+      particulièrement utile pour la poursuite de mes études et mon
+      évolution future dans le domaine des systèmes et réseaux.
+    </p>
+  </div>
+</section>
+
+  <div class="spacer"></div>
+
+</body>
+
+
+
+    <!-- Ajout d'une div vide pour espacer les sections -->
+<div class="spacer"></div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+<!-- Section  -->
+<div class="footer-section">
+  <h4>PORTFOLIO</h4>
+   <p><i class="fas fa-envelope"></i> <a href="mailto:zenkod@gmail.com">felicienlantoine.pro@gmail.com</a></p>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees">RGPD</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Mentions légales</a></li>
+  </ul>
+</div>
+
+ <!-- Section Entreprise -->
+<div class="footer-section">
+  <h4>Entreprise</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">À propos</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Services</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#">Contact</a></li>
+  </ul>
+</div>
+
+<!-- Section Réseaux sociaux -->
+<div class="footer-section">
+  <h4>Réseaux sociaux</h4>
+  <ul>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+    <li><i class="fas fa-chevron-right"></i> <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+    </ul>
+  </div>
+</div>
+    <!-- Copyright -->
+    <div class="footer-bottom">
+        <div class="separator-line"></div> <!-- Ligne de séparation -->
+        <p>© 2025 LANTOINE Félicien. Tous droits réservés.</p>
+      </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS (nécessaire pour la navigation responsive) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Lien vers le fichier menu.js -->
+<script src="menu.js"></script>
+
+</body>
+</html>

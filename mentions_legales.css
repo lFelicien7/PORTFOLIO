@@ -1,0 +1,55 @@
+/* ========================================================================
+   Mentions Légales (Style spécifique)
+   ======================================================================== */
+.mentions-legales {
+  background-color: #ffffff; /* Fond blanc pour les mentions légales */
+  padding: 30px; /* Plus d'espacement interne pour un effet aéré */
+  border: 1px solid #e0e0e0; /* Bordure grise légère */
+  margin-top: 40px; /* Espacement supérieur */
+  border-radius: 10px; /* Coins arrondis */
+  font-size: 1.1rem; /* Taille de texte standard */
+  line-height: 1.7; /* Espacement entre les lignes pour plus de lisibilité */
+}
+
+.mentions-legales h3 {
+  color: #333333; /* Gris foncé pour les titres */
+  font-weight: bold; /* Titre en gras */
+  margin-top: 30px; /* Plus d'espacement avant chaque titre */
+  margin-bottom: 10px; /* Espacement après chaque titre */
+  font-size: 1.7rem; /* Taille du titre pour le rendre plus visible */
+}
+
+.mentions-legales p {
+  color: #333333; /* Gris plus foncé pour les paragraphes pour une meilleure lisibilité */
+  margin-bottom: 15px; /* Espacement entre les paragraphes */
+  font-weight: normal; /* Texte en normal */
+}
+
+.mentions-legales ul {
+  color: #333333; /* Gris foncé pour les éléments de liste */
+  margin-left: 20px; /* Espacement de la liste */
+  font-size: 1rem; /* Taille de la police des éléments de la liste */
+}
+
+.mentions-legales ul li {
+  margin-bottom: 10px; /* Espacement entre chaque élément de liste */
+}
+
+/* Ajustements pour petits écrans */
+@media (max-width: 768px) {
+  .mentions-legales {
+    padding: 20px; /* Espacement réduit pour les petits écrans */
+  }
+
+  .mentions-legales h3 {
+    font-size: 1.5rem; /* Taille plus petite des titres */
+  }
+
+  .mentions-legales p {
+    font-size: 1rem; /* Taille plus petite du texte */
+  }
+
+  .mentions-legales ul li {
+    font-size: 1rem; /* Ajustement de la taille de la liste sur petits écrans */
+  }
+}

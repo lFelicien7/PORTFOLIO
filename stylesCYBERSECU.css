@@ -1,0 +1,111 @@
+/* ========================================================================
+   Grille d'articles responsive
+   ======================================================================== */
+.articles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 3rem;
+    column-gap: 1rem;
+    margin-bottom: 4rem; /* ✅ espace sous toute la grille */
+}
+
+@media (min-width: 768px) {
+    .articles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .articles-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1600px) {
+    .articles-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ========================================================================
+   Articles (cartes)
+   ======================================================================== */
+.card {
+    position: relative;
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-img-top {
+    border-radius: 0;
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.card-img-top:hover {
+    transform: scale(1.1);
+    object-position: center;
+}
+
+.card-img-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* 🔒 Garde le même format partout */
+    overflow: hidden;
+    background-color: #000; /* si image lente à charger */
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #000000;
+}
+
+.card-text {
+    color: #666;
+    font-size: 1rem;
+}
+/* Titre principal */
+.text-md-start, .text-center h1 {
+  color: #ffffff;  /* Texte en blanc */
+}
+
+/* Force identical size for dynamic cards too */
+.articles-grid .card > a > img.card-img-top {
+  height: 200px !important;
+  width: 100% !important;
+  object-fit: cover !important;
+  display: block;
+}
+
+
+.btn-add {
+  background-color: #007bff; /* bleu bootstrap, tu peux changer */
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-add:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
