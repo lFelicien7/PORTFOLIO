@@ -61,13 +61,74 @@ function updateAddButton(button, user) {
   );
 }
 
+function promptPassword() {
+  return new Promise((resolve) => {
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.inset = "0";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.padding = "1rem";
+    overlay.style.background = "rgba(0, 0, 0, 0.6)";
+    overlay.style.zIndex = "9999";
+
+    const modal = document.createElement("div");
+    modal.style.width = "100%";
+    modal.style.maxWidth = "360px";
+    modal.style.padding = "1.25rem";
+    modal.style.borderRadius = "14px";
+    modal.style.background = "#ffffff";
+    modal.style.boxShadow = "0 18px 40px rgba(0, 0, 0, 0.25)";
+
+    modal.innerHTML = `
+      <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem; color: #111827;">Connexion administrateur</h2>
+      <p style="margin: 0 0 1rem; color: #4b5563; font-size: 0.95rem;">Entre ton mot de passe pour continuer.</p>
+      <input
+        type="password"
+        id="admin-password-input"
+        autocomplete="current-password"
+        style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 10px; outline: none;"
+      >
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem;">
+        <button type="button" data-action="cancel" style="border: none; background: #e5e7eb; color: #111827; padding: 0.7rem 1rem; border-radius: 10px;">Annuler</button>
+        <button type="button" data-action="confirm" style="border: none; background: #2563eb; color: white; padding: 0.7rem 1rem; border-radius: 10px;">Valider</button>
+      </div>
+    `;
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    const input = modal.querySelector("#admin-password-input");
+    const cancelButton = modal.querySelector('[data-action="cancel"]');
+    const confirmButton = modal.querySelector('[data-action="confirm"]');
+
+    const close = (value) => {
+      overlay.remove();
+      resolve(value);
+    };
+
+    cancelButton.addEventListener("click", () => close(""));
+    confirmButton.addEventListener("click", () => close(input.value));
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) close("");
+    });
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") close(input.value);
+      if (event.key === "Escape") close("");
+    });
+
+    input.focus();
+  });
+}
+
 async function requireAdmin() {
   if (isAdmin(auth.currentUser)) return true;
 
   const email = normalizeEmail(prompt("Email administrateur :"));
   if (!email) return false;
 
-  const password = prompt("Mot de passe :") || "";
+  const password = await promptPassword();
   if (!password) return false;
 
   try {
