@@ -70,29 +70,33 @@ function promptPassword() {
     overlay.style.alignItems = "center";
     overlay.style.justifyContent = "center";
     overlay.style.padding = "1rem";
-    overlay.style.background = "rgba(0, 0, 0, 0.6)";
+    overlay.style.background = "rgba(9, 14, 25, 0.72)";
+    overlay.style.backdropFilter = "blur(6px)";
     overlay.style.zIndex = "9999";
 
     const modal = document.createElement("div");
     modal.style.width = "100%";
-    modal.style.maxWidth = "360px";
-    modal.style.padding = "1.25rem";
-    modal.style.borderRadius = "14px";
-    modal.style.background = "#ffffff";
-    modal.style.boxShadow = "0 18px 40px rgba(0, 0, 0, 0.25)";
+    modal.style.maxWidth = "400px";
+    modal.style.padding = "1.5rem";
+    modal.style.borderRadius = "16px";
+    modal.style.border = "1px solid rgba(30, 144, 255, 0.35)";
+    modal.style.background = "linear-gradient(180deg, #1d1d1d 0%, #161f32 100%)";
+    modal.style.boxShadow = "0 20px 45px rgba(0, 0, 0, 0.4)";
+    modal.style.fontFamily = "'Poppins', sans-serif";
+    modal.style.color = "#f5f5f5";
 
     modal.innerHTML = `
-      <h2 style="margin: 0 0 0.5rem; font-size: 1.1rem; color: #111827;">Connexion administrateur</h2>
-      <p style="margin: 0 0 1rem; color: #4b5563; font-size: 0.95rem;">Entre ton mot de passe pour continuer.</p>
+      <h2 style="margin: 0 0 0.45rem; font-size: 1.15rem; font-weight: 600; color: #ffffff;">Connexion administrateur</h2>
+      <p style="margin: 0 0 1rem; color: rgba(245, 245, 245, 0.78); font-size: 0.95rem;">Entre ton mot de passe pour continuer.</p>
       <input
         type="password"
         id="admin-password-input"
         autocomplete="current-password"
-        style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 10px; outline: none;"
+        style="width: 100%; padding: 0.8rem 0.9rem; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 10px; outline: none; background: rgba(255, 255, 255, 0.08); color: #ffffff; box-sizing: border-box;"
       >
       <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem;">
-        <button type="button" data-action="cancel" style="border: none; background: #e5e7eb; color: #111827; padding: 0.7rem 1rem; border-radius: 10px;">Annuler</button>
-        <button type="button" data-action="confirm" style="border: none; background: #2563eb; color: white; padding: 0.7rem 1rem; border-radius: 10px;">Valider</button>
+        <button type="button" data-action="cancel" style="border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.06); color: #f5f5f5; padding: 0.72rem 1rem; border-radius: 10px;">Annuler</button>
+        <button type="button" data-action="confirm" style="border: none; background: #1e90ff; color: white; padding: 0.72rem 1rem; border-radius: 10px; box-shadow: 0 10px 20px rgba(30, 144, 255, 0.25);">Valider</button>
       </div>
     `;
 
