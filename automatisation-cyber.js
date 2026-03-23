@@ -165,12 +165,9 @@ async function fetchMeta(url) {
 }
 
 function buildDoc(info, urlFallback) {
-  const now = new Date();
-  const dateStr = `(${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()})`;
-
   return {
     title: info.title || "Titre non disponible",
-    summary: `${dateStr} - ${info.description || "Description non disponible"}`,
+    summary: info.description || "Description non disponible",
     image: info.image?.url || "images/placeholder.png",
     url: info.url || urlFallback,
     createdAt: serverTimestamp()
