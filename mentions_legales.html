@@ -1,40 +1,35 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guide de Bonnes Conduites</title>
+  <title>Mentions légales</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Lien vers le CDN de Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
-  <link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS commun -->
-  <link rel="stylesheet" href="stylesVC.css"> <!-- Lien vers le fichier CSS externe -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="stylesUpgrade.css">
+  <link rel="stylesheet" href="mentions_legales.css">
 </head>
 <body>
 
-  <!-- En-tête de la page -->
   <header class="header">
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Mon Portfolio</a>
 
-        <!-- Bouton pour ouvrir le menu -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <i class="fas fa-bars" style="font-size: 30px; color: white;"></i>
         </button>
 
-        <!-- Bouton pour fermer le menu -->
         <button class="navbar-toggler-close" type="button" aria-label="Close navigation" style="display: none;">
           <i class="fas fa-times" style="font-size: 30px; color: white;"></i>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <!-- Accueil -->
             <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
 
-            <!-- Menu Études -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdownEtudes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Études
@@ -45,13 +40,11 @@
               </ul>
             </li>
 
-            <!-- NOUVEL ONGLET combiné : Projets, Stages & Veille -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdownPSV" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 EPREUVE E5
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownPSV">
-                <!-- Veille technologique -->
                 <li><h6 class="dropdown-header">Veille technologique</h6></li>
                 <li><a class="dropdown-item" href="Veille_documentaire.html">Présentation</a></li>
                 <li><a class="dropdown-item" href="cybersecu.html">Cybersécurité sur les Réseaux Sociaux</a></li>
@@ -59,7 +52,6 @@
 
                 <li><hr class="dropdown-divider"></li>
 
-                <!-- Stages professionnels -->
                 <li><h6 class="dropdown-header">Stages professionnels</h6></li>
                 <li><a class="dropdown-item" href="Stage1ereBTS.html">BTS SIO - 1ère Année</a></li>
                 <li><a class="dropdown-item" href="Stage2emeBTS.html">BTS SIO - 2ème Année</a></li>
@@ -71,7 +63,6 @@
 
                 <li><hr class="dropdown-divider"></li>
 
-                <!-- Projets d'AP (E6) -->
                 <li><h6 class="dropdown-header">EPREUVE E6</h6></li>
                 <li><a class="dropdown-item" href="AP1.html">AP1</a></li>
                 <li><a class="dropdown-item" href="AP2.html">AP2</a></li>
@@ -80,7 +71,6 @@
               </ul>
             </li>
 
-            <!-- Menu déroulant EPREUVE E6 -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdownStage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 EPREUVE E6
@@ -94,118 +84,168 @@
                 <li><a class="dropdown-item" href="AP3.html">AP3</a></li>
                 <li><a class="dropdown-item" href="AP4.html">AP4</a></li>
               </ul>
-          </li>
-          
-            <!-- Lien vers la page "Guide de bonnes conduites" -->
+            </li>
+
             <li class="nav-item"><a class="nav-link" href="guide_de_bonnes_conduites.html">Guide de bonnes conduites</a></li>
-
-            <!-- Lien vers la page "Guide de bonnes conduites" -->
             <li class="nav-item"><a class="nav-link" href="Documentation/TABLEAU DE SYNTHESE - BTS SIO 2026.pdf">Tableau de synthèse</a></li>
-
+          </ul>
         </div>
       </div>
     </nav>
   </header>
 
-  <!-- Fil d'Ariane -->
-<div class="breadcrumb-container">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
-      <li class="breadcrumb-item"><a href="mentions_legales.html">Guide de bonnes conduites</a></li>
-    </ol>
-  </nav>
-</div>
-
-<!-- Contenu de la page -->
-<main class="container my-5">
-  <div class="container-box">
-    <!-- Titre remplacé par les Mentions Légales -->
-    <h2>Mentions légales</h2>
-    
-    <!-- Section des Mentions Légales -->
-    <section class="mentions-legales">
-      <h3>1. Informations légales</h3>
-      <p>Le présent site [Nom de ton site] (ci-après « le Site ») est édité par :</p>
-      <p><strong>Nom du responsable de la publication :</strong> [Ton nom complet]</p>
-      <p><strong>Statut :</strong> [Exemple : Étudiant(e), freelance, etc.]</p>
-      <p><strong>Adresse :</strong> [Ton adresse]</p>
-      <p><strong>Téléphone :</strong> [Ton numéro de téléphone]</p>
-      <p><strong>Adresse email :</strong> [Ton adresse email]</p>
-      <p><strong>Numéro SIRET :</strong> [Numéro SIRET] (si applicable)</p>
-      <p><strong>Hébergeur :</strong> [Nom de l'hébergeur] - [Adresse de l'hébergeur] - [Numéro de téléphone de l'hébergeur]</p>
-      <p><strong>Directeur de la publication :</strong> [Ton nom]</p>
-
-      <h3>2. Propriété intellectuelle</h3>
-      <p>L'ensemble du contenu du site, incluant les textes, images, graphismes, logos, vidéos, icônes, sons, ainsi que leur mise en forme, sont la propriété exclusive de [Ton nom ou le nom de ta société], à l'exception des marques, logos ou contenus appartenant à d'autres sociétés partenaires ou auteurs.</p>
-      <p>Toute reproduction, distribution, modification, retransmission ou publication de ces éléments, en tout ou en partie, est interdite sans l'accord préalable et écrit de l'éditeur.</p>
-
-      <h3>3. Données personnelles</h3>
-      <p>Conformément à la loi Informatique et Libertés du 6 janvier 1978, modifiée par la loi n° 2018-493 du 20 juin 2018, relative à la protection des données personnelles (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression, d'opposition et de portabilité des données vous concernant.</p>
-      <p>Pour exercer ces droits, vous pouvez nous contacter à l'adresse suivante : [Ton adresse email].</p>
-      <p>Les informations personnelles collectées sur ce site sont destinées à un usage interne pour la gestion des contacts, des demandes ou des services proposés par le site. Elles ne sont pas revendues ni partagées avec des tiers.</p>
-
-      <h3>4. Cookies</h3>
-      <p>Le site utilise des cookies pour améliorer l'expérience utilisateur. Ces cookies peuvent être utilisés pour analyser l’utilisation du site, se souvenir de vos préférences ou vous proposer du contenu personnalisé.</p>
-      <p>En utilisant ce site, vous acceptez l’utilisation de ces cookies. Vous pouvez modifier vos paramètres de cookies à tout moment via les paramètres de votre navigateur.</p>
-
-      <h3>5. Responsabilité</h3>
-      <p>Le site [Nom de ton site] s'efforce de fournir des informations exactes et mises à jour. Cependant, il ne pourra être tenu responsable des erreurs, omissions ou des résultats obtenus par un mauvais usage des informations présentes sur le site.</p>
-      <p>Le site peut contenir des liens vers des sites externes. [Ton nom] ne peut être tenu responsable du contenu de ces sites ou des dommages résultant de leur consultation.</p>
-
-      <h3>6. Loi applicable et juridiction compétente</h3>
-      <p>Les présentes mentions légales sont régies par la loi française. En cas de litige, les tribunaux français seront compétents, sauf disposition légale contraire.</p>
-    </section>
+  <div class="breadcrumb-container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Mentions légales</li>
+      </ol>
+    </nav>
   </div>
-</main>
 
+  <div class="spacer1"></div>
 
+  <section class="container stage-section">
+    <h3>Mentions légales</h3>
 
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-<!-- Section  -->
+    <div class="stage-card legal-intro-card">
+      <p>
+        Les présentes mentions légales encadrent l'utilisation de ce portfolio personnel.
+        Ce site a pour objectif de présenter le parcours, les compétences, les projets
+        et les réalisations de son auteur dans un cadre scolaire et professionnel.
+      </p>
+    </div>
+
+    <div class="spacer2"></div>
+
+    <div class="stage-card">
+      <h4>1. Éditeur du site</h4>
+      <p><strong>Nom :</strong> Félicien Lantoine</p>
+      <p><strong>Statut :</strong> Étudiant en BTS SIO, option SISR</p>
+      <p><strong>Nature du site :</strong> Portfolio personnel à vocation scolaire et professionnelle</p>
+      <p><strong>Adresse e-mail :</strong> <a href="mailto:felicienlantoine.pro@gmail.com">felicienlantoine.pro@gmail.com</a></p>
+      <p><strong>Directeur de la publication :</strong> Félicien Lantoine</p>
+    </div>
+
+    <div class="spacer2"></div>
+
+    <div class="stage-card">
+      <h4>2. Hébergement</h4>
+      <p>
+        Le site est hébergé par un prestataire technique dont les informations
+        complètes pourront être précisées selon la solution de mise en ligne retenue.
+      </p>
+      <p><strong>Hébergeur :</strong> À compléter lors de la mise en production du site</p>
+    </div>
+
+    <div class="spacer2"></div>
+
+    <div class="stage-card">
+      <h4>3. Propriété intellectuelle</h4>
+      <p>
+        Sauf mention contraire, les contenus présents sur ce site, notamment les textes,
+        éléments visuels, documents, réalisations, maquettes et organisation du portfolio,
+        sont la propriété de leur auteur.
+      </p>
+      <p>
+        Toute reproduction, représentation, modification, publication ou adaptation,
+        totale ou partielle, de ces éléments, sans autorisation préalable, est interdite,
+        sauf usage strictement privé ou dispositions légales contraires.
+      </p>
+    </div>
+
+    <div class="spacer2"></div>
+
+    <div class="stage-card">
+      <h4>4. Données personnelles</h4>
+      <p>
+        Ce site a une finalité de présentation de parcours et de mise en relation.
+        Les données éventuellement transmises par e-mail sont utilisées uniquement
+        pour répondre aux demandes de contact.
+      </p>
+      <p>
+        Aucune cession ou revente de données personnelles à des tiers n'est effectuée.
+      </p>
+      <p>
+        Conformément à la réglementation applicable en matière de protection des données,
+        vous pouvez demander l'accès, la rectification ou la suppression de vos données
+        en écrivant à l'adresse suivante :
+        <a href="mailto:felicienlantoine.pro@gmail.com">felicienlantoine.pro@gmail.com</a>.
+      </p>
+    </div>
+
+    <div class="spacer2"></div>
+
+    <div class="stage-card">
+      <h4>5. Cookies</h4>
+      <p>
+        Ce portfolio n'a pas vocation à exploiter des cookies publicitaires.
+        Des cookies techniques ou de mesure d'audience peuvent toutefois être utilisés
+        selon les services intégrés ou la plateforme d'hébergement choisie.
+      </p>
+      <p>
+        Vous pouvez configurer votre navigateur pour refuser tout ou partie des cookies.
+      </p>
+    </div>
+
+    <div class="spacer2"></div>
+
+    <div class="stage-card">
+      <h4>6. Responsabilité</h4>
+      <p>
+        L'auteur s'efforce de fournir des informations aussi exactes et à jour que possible.
+        Toutefois, il ne peut garantir l'exactitude, l'exhaustivité ou l'actualisation
+        permanente de l'ensemble des contenus publiés.
+      </p>
+      <p>
+        Le site peut contenir des liens vers des sites externes. L'auteur ne saurait être
+        tenu responsable du contenu, du fonctionnement ou des pratiques de ces sites tiers.
+      </p>
+    </div>
+
+    <div class="spacer2"></div>
+
+    <div class="stage-card">
+      <h4>7. Droit applicable</h4>
+      <p>
+        Les présentes mentions légales sont soumises au droit français.
+        En cas de litige, et sauf disposition légale impérative contraire,
+        les juridictions françaises seront compétentes.
+      </p>
+    </div>
+  </section>
+
+  <div class="spacer1"></div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>PORTFOLIO</h4>
+          <p><i class="fas fa-envelope"></i> <a href="mailto:felicienlantoine.pro@gmail.com">felicienlantoine.pro@gmail.com</a></p>
+          <ul>
+            <li><i class="fas fa-chevron-right"></i> <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees">RGPD</a></li>
+            <li><i class="fas fa-chevron-right"></i> <a href="mentions_legales.html">Mentions légales</a></li>
+          </ul>
+        </div>
+
 <div class="footer-section">
-  <h4>PORTFOLIO</h4>
-   <p><i class="fas fa-envelope"></i> <a href="mailto:felicienlantoine.pro@gmail.com">felicienlantoine.pro@gmail.com</a></p>
-  <ul>
-    <li><i class="fas fa-chevron-right"></i> <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees">RGPD</a></li>
-    <li><i class="fas fa-chevron-right"></i> <a href="#">Mentions légales</a></li>
-  </ul>
-</div>
+          <h4>Réseaux sociaux</h4>
+          <ul>
+            <li><i class="fas fa-chevron-right"></i> <a href="https://www.linkedin.com/in/f%C3%A9licien-lantoine-3ab04a327/" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
 
- <!-- Section Entreprise -->
-<div class="footer-section">
-  <h4>Entreprise</h4>
-  <ul>
-    <li><i class="fas fa-chevron-right"></i> <a href="#">À propos</a></li>
-    <li><i class="fas fa-chevron-right"></i> <a href="#">Services</a></li>
-    <li><i class="fas fa-chevron-right"></i> <a href="#">Contact</a></li>
-  </ul>
-</div>
-
-<!-- Section Réseaux sociaux -->
-<div class="footer-section">
-  <h4>Réseaux sociaux</h4>
-  <ul>
-    <li><i class="fas fa-chevron-right"></i> <a href="https://www.linkedin.com/in/f%C3%A9licien-lantoine-3ab04a327/" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
-    </ul>
-  </div>
-</div>
-    <!-- Copyright -->
-    <div class="footer-bottom">
-        <div class="separator-line"></div> <!-- Ligne de séparation -->
+      <div class="footer-bottom">
+        <div class="separator-line"></div>
         <p>© 2025 LANTOINE Félicien. Tous droits réservés.</p>
       </div>
     </div>
-</footer>
+  </footer>
 
-<!-- Bootstrap JS (nécessaire pour la navigation responsive) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Lien vers le fichier menu.js -->
-<script src="menu.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="menu.js"></script>
 
 </body>
 </html>
