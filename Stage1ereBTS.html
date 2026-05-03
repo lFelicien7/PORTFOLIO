@@ -192,6 +192,27 @@
       <li>Analyse de pannes réseau et traitement d’incidents</li>
       <li>Tests de connectivité et validation de configurations</li>
     </ul>
+    <div class="project-links">
+      <button
+        type="button"
+        class="network-toggle-button"
+        data-toggle-gallery="infra-gallery"
+        aria-expanded="false"
+        aria-controls="infra-gallery">
+        Afficher les photos des infrastructures réseau
+      </button>
+    </div>
+    <div class="infra-gallery" id="infra-gallery" hidden>
+      <div class="infra-photo-card">
+        <img src="Documentation/20250519_162627.jpg" alt="Infrastructure réseau - vue 1">
+      </div>
+      <div class="infra-photo-card">
+        <img src="Documentation/20250519_162712.jpg" alt="Infrastructure réseau - vue 2">
+      </div>
+      <div class="infra-photo-card">
+        <img src="Documentation/20250521_091538.jpg" alt="Infrastructure réseau - vue 4">
+      </div>
+    </div>
     <!-- LOGOS ÉQUIPEMENTS RÉSEAU -->
     <div class="logos-container">
       <div class="logo-item">
@@ -245,6 +266,7 @@
       <li>Participation à la préparation d’une plateforme technique</li>
       <li>Découverte du datacenter</li>
       <li>Travail en collaboration avec l’équipe CMO-RD</li>
+      <li>Accompagnement avec l’équipe de la CIRISI durant une journée</li>
       <li>Respect des procédures et des normes de sécurité</li>
     </ul>
   </div>
@@ -344,11 +366,81 @@
     </div>
 </footer>
 
+<div class="image-lightbox" id="image-lightbox" hidden>
+  <button type="button" class="image-lightbox-close" aria-label="Fermer l'image">&times;</button>
+  <img src="" alt="" class="image-lightbox-content" id="image-lightbox-content">
+</div>
+
 <!-- Bootstrap JS (nécessaire pour la navigation responsive) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Lien vers le fichier menu.js -->
 <script src="menu.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggleButtons = document.querySelectorAll("[data-toggle-gallery]");
+    const lightbox = document.getElementById("image-lightbox");
+    const lightboxImage = document.getElementById("image-lightbox-content");
+    const lightboxCloseButton = document.querySelector(".image-lightbox-close");
+    const galleryImages = document.querySelectorAll(".infra-photo-card img");
+
+    toggleButtons.forEach((button) => {
+      const galleryId = button.getAttribute("data-toggle-gallery");
+      const gallery = document.getElementById(galleryId);
+
+      if (!gallery) return;
+
+      button.addEventListener("click", () => {
+        const isHidden = gallery.hasAttribute("hidden");
+
+        if (isHidden) {
+          gallery.removeAttribute("hidden");
+          button.setAttribute("aria-expanded", "true");
+          button.textContent = "Masquer les photos des infrastructures réseau";
+          return;
+        }
+
+        gallery.setAttribute("hidden", "");
+        button.setAttribute("aria-expanded", "false");
+        button.textContent = "Afficher les photos des infrastructures réseau";
+      });
+    });
+
+    galleryImages.forEach((image) => {
+      image.addEventListener("click", () => {
+        if (!lightbox || !lightboxImage) return;
+
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        lightbox.removeAttribute("hidden");
+        document.body.style.overflow = "hidden";
+      });
+    });
+
+    const closeLightbox = () => {
+      if (!lightbox || !lightboxImage) return;
+
+      lightbox.setAttribute("hidden", "");
+      lightboxImage.src = "";
+      lightboxImage.alt = "";
+      document.body.style.overflow = "";
+    };
+
+    lightboxCloseButton?.addEventListener("click", closeLightbox);
+
+    lightbox?.addEventListener("click", (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && lightbox && !lightbox.hasAttribute("hidden")) {
+        closeLightbox();
+      }
+    });
+  });
+</script>
 
 </body>
 </html>
